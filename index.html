@@ -41,7 +41,7 @@
       </div>
     </div>
   </div>
-  <embed src="./resource/default_games/angrybirdsspace.swf" width="50%" height="50%" style="align-self: center">
+  <embed src="" id="game" width="50%" height="50%" style="align-self: center">
 
   <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
   <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
@@ -51,6 +51,7 @@
     <!-- Add additional services that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-messaging.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-functions.js"></script>
@@ -65,6 +66,13 @@
         appId: "1:825744686702:web:18baeb1ddfb42964"
       };
       firebase.initializeApp(config);
+
+      var storage = firebase.storage();
+      var gameRef = storage.ref('default game/angrybirdsspace.swf');
+      
+      gameRef.getDownloadURL().then(function(url) {
+        document.getElementById('game').src = url;
+      });
 
       var test = document.getElementById('test');
       var dbRef = firebase.database().ref().child('text');
