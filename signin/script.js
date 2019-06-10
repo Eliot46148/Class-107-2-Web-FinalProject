@@ -1,3 +1,4 @@
+const userName = document.getElementById('userName');
 const emailAddr = document.getElementById('emailAddr');
 const psword = document.getElementById('psword');
 const btnLogin = document.getElementById('login');
@@ -26,11 +27,31 @@ btnLogin.addEventListener('click', e => {
     promise.catch(e => alert(e.message));
 })
 btnSignup.addEventListener('click', e => {
+    const name = userName.value;
     const email = emailAddr.value;
     const pswd = psword.value;
     const auth = firebase.auth();
 
-    const promise = auth.createUserWithEmailAndPassword(email, pswd);
+    const publicData = {
+        email: auth.currentUser.email,
+        name: name
+    };
+    const promise = auth.createUserWithEmailAndPassword(email, pswd)
+    .then(function(){
+        alert("in");
+        var updates = {};
+        updates['/user_group/public_user_data/' + auth.currentUser.uid] = publicData;
+        updates['/user_group/private_user_data/' + auth.currentUser.uid] = {
+            password: pswd
+        };
+        firebase.database().ref().update(updates)
+        .then(function () {
+            alert('註冊成功');
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    });
     promise.catch(e => alert(e.message));
 })
 

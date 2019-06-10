@@ -7,7 +7,7 @@ for(var i = 0; i < hashParams.length; i++){
 }
  
  ////////// Load Article Function //////////
- var limit = 5;
+ var limit = 100;
  var count = 0;
  var trueData = 0;
  var flag = true;
@@ -64,7 +64,7 @@ for(var i = 0; i < hashParams.length; i++){
  function createArticle(id, published, data) {
      console.log(id)
      var el = document.createElement('div');
-     el.class = "card";
+     el.class = "card col-md-3";
      el.style = "width: 18rem;"
      var title = document.createElement('h1');
      var body = document.createElement('p');
@@ -76,7 +76,7 @@ for(var i = 0; i < hashParams.length; i++){
     '<img class="card-img-top" alt="Card image cap">' +
     '  <h5 class="card-title">' + data.title +'</h5>' +
     '<ul class="list-group list-group-flush">' +
-    '  <li class="list-group-item">' + '作者：' + data.uid + '</li>' +
+    '  <li class="list-group-item" id="author">' + '作者：' + '</li>' +
     '  <li class="list-group-item">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
     '</ul>' +
     '  <p class="card-text">' + data.body + '</p>' +
@@ -91,16 +91,30 @@ for(var i = 0; i < hashParams.length; i++){
      img.style = ""
      imgRef.getDownloadURL().then(function (url) {
         el.children[0].children[0].src = url;
+        parent.AdjustIframeHeightOnLoad('blog');
      });
+     var ref = firebase.database().ref("user_group/public_user_data/" + data.uid)
+     .on('value',
+     function(data){
+        el.children[0].children[2].children[0].innerHTML = '作者：' + data.val().name;
+        parent.AdjustIframeHeightOnLoad('blog');
+    }, function (err) {
+        showError(err);
+    });
   document.getElementById('content').appendChild(el);
 
  }
 
  ////////////////////// Upload Function /////////////////////
  var storage = firebase.storage();
+ var auth = firebase.auth().currentUser;
  var file;
  var img;
  var date_submit;
+
+ firebase.auth().onAuthStateChanged(function (user) {
+     auth = user;
+ });
 
  var submitButton = document.querySelector('#submit-button');
  var titleText = document.querySelector('#title');
@@ -121,19 +135,17 @@ for(var i = 0; i < hashParams.length; i++){
      var body = bodyText.value;
      var file_name =  file.name;
      var img_name = img.name;
+     alert(auth);
+    if (title == "" || file_name == "" || img_name == "" || auth == null)
+        return 0;
+    var uid = auth.uid;
      date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_");
-     if (title == "" || file_name == "" || img_name == "")
-         return 0;
      var articleRef = '/article_group/';
-     var auth = firebase.auth().currentUser;
-     var email = "null";
-     if(auth != null)
-        email = auth.email;
      var articleData = {
          title: title,
          body: body,
          date_edited: firebase.database.ServerValue.TIMESTAMP,
-         uid: email,
+         uid: uid,
          slug_name: title.replace(/\s/g, '-'),
          game_id: date_submit + '_' + file_name, 
          img_id: date_submit + '_' + img_name
@@ -169,7 +181,6 @@ for(var i = 0; i < hashParams.length; i++){
                 })
                 .catch(function (error) {
                     console.log(error);
-                    alert(error.message)
                 });
         }   
     );

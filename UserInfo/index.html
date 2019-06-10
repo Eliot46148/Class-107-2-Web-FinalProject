@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-    <title>會員資訊</title>
+    <title>北科遊戲雲-首頁</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="../resource/logo.png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
@@ -20,7 +21,23 @@
 </head>
 
 <body>
-    <h2 class="email" id ="email">Email:</h2>
+        <div class="pos-f-t">
+                <nav class="navbar navbar-dark bg-dark">
+                    <button class="btn p-0" type="button" onclick="window.location.reload()">
+                    <img src="../resource/logo.png" alt="" width="50px">
+                    <p style="color: white; font-size: 15px">北科遊戲雲</p>
+                </button>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                </nav>
+                <div class="collapse" id="navbarToggleExternalContent">
+                  <div class="bg-dark p-4">
+                    <iframe src="../signin/index.html" id="SignIn" frameborder="0" width="100%" onload="AdjustIframeHeightOnLoad('SignIn')"></iframe>
+                  </div>
+                </div>
+              </div>
+    <iframe src="../blog/blog.html" id="blog" scrolling='no' frameborder="0" width="100%" onload="AdjustIframeHeightOnLoad('blog')"></iframe>
 
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
