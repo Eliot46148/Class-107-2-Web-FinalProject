@@ -1,3 +1,11 @@
+var hashParams = window.location.hash.substr(1).split('&'); // substr(1) to remove the `#`
+for(var i = 0; i < hashParams.length; i++){
+    var p = hashParams[i].split('=');
+    if(p=='')
+        break;
+    document.getElementById(p[0]).value = decodeURIComponent(p[1]);
+}
+ 
  ////////// Load Article Function //////////
  var limit = 5;
  var count = 0;
@@ -56,41 +64,35 @@
  function createArticle(id, published, data) {
      console.log(id)
      var el = document.createElement('div');
+     el.class = "card";
+     el.style = "width: 18rem;"
      var title = document.createElement('h1');
      var body = document.createElement('p');
-     var byline = document.createElement('span');
      title.innerHTML = data.title;
      body.innerHTML = data.body;
-     byline.innerHTML = '作者：' + data.uid + '<br>最後更新時間：' + new Date(published).toLocaleString() + '<hr>';
-     
+
+    var strHTML = 
+    '<div class="card-body">' +
+    '<img class="card-img-top" alt="Card image cap">' +
+    '  <h5 class="card-title">' + data.title +'</h5>' +
+    '<ul class="list-group list-group-flush">' +
+    '  <li class="list-group-item">' + '作者：' + data.uid + '</li>' +
+    '  <li class="list-group-item">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
+    '</ul>' +
+    '  <p class="card-text">' + data.body + '</p>' +
+    '  <a href="' + '../game/game.html' + '#game_id=uploaded_games/' + data.game_id + '" class="btn btn-primary">玩遊戲</a>' +
+    '</div>';
+  appendHtml(el, strHTML);
+
      var imgRef = storage.ref('uploaded_imgs/' + data.img_id);
      var img = document.createElement('img');
+     img.class = "card-img-top";
+     img.alt = "Card image cap";
+     img.style = ""
      imgRef.getDownloadURL().then(function (url) {
-        img.src = url;
-         el.appendChild(img)
+        el.children[0].children[0].src = url;
      });
-
-    var gameRef = storage.ref('uploaded_games/' + data.game_id);
-    var gameEmbedUrl;
-    gameRef.getDownloadURL().then(function (url) {
-        gameEmbedUrl = url;
-    });
-
-     el.appendChild(title)
-     el.appendChild(byline)
-     el.appendChild(body)
-
-    var strHTML = '<div class="card" style="width: 18rem;">' +
-    '<img class="card-img-top" src="' + gameEmbedUrl + '" alt="Card image cap">' +
-    '<div class="card-body">' +
-    '  <h5 class="card-title">' + data.title +'</h5>' +
-    '  <p class="card-text">' + data.body + '</p>' +
-    '  <a href="#" class="btn btn-primary">Go somewhere</a>' +
-    '</div>' +
-  '</div>';
-  alert(strHTML);
-
-  appendHtml(document.getElementById('content'), strHTML);
+  document.getElementById('content').appendChild(el);
 
  }
 
@@ -123,11 +125,15 @@
      if (title == "" || file_name == "" || img_name == "")
          return 0;
      var articleRef = '/article_group/';
+     var auth = firebase.auth().currentUser;
+     var email = "null";
+     if(auth != null)
+        email = auth.email;
      var articleData = {
          title: title,
          body: body,
          date_edited: firebase.database.ServerValue.TIMESTAMP,
-         uid: 'user1',
+         uid: email,
          slug_name: title.replace(/\s/g, '-'),
          game_id: date_submit + '_' + file_name, 
          img_id: date_submit + '_' + img_name
