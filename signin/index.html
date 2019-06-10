@@ -12,18 +12,24 @@
   </head>
 <body class="container">
   <h1 id="test"></h1>
+  <h2 id="status">未登入</h2>
 
   <div class="col-md-5">
     <input id="emailAddr" type="text" class="form-control" placeholder="Your Email">
     <input id="psword" type="text" class="form-control" placeholder="Your password">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-4">
         <button id="login" type="button" class="btn btn-primary">Log In</button>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-4">
         <button id="signup" type="button" class="btn btn-secondary">Sign Up</button>
       </div>
+      <div class="col-md-4">
+        <button id="signout" type="button" class="btn btn-secondary">Sign Out</button>
+      </div>
     </div>
+
+    <iframe src="../UserInfo/index.html" frameborder="0"></iframe>
   </div>
 
   <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
