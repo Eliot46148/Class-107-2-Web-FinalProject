@@ -8,11 +8,11 @@ const status = document.getElementById("status");
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-        console.log(user.email, "登入中");
+        console.log(user.email, "login");
         loginUser = firebase.auth().currentUser;
-        status.innerText = user.email + "登入中";
+        status.innerText = user.email + "登入成功";
     } else {
-        console.log("未登入");
+        console.log("login failed");
         loginUser = null;
         status.innerText = "未登入";
     }
@@ -37,21 +37,23 @@ btnSignup.addEventListener('click', e => {
         name: name
     };
     const promise = auth.createUserWithEmailAndPassword(email, pswd)
-    .then(function(){
-        alert("in");
-        var updates = {};
-        updates['/user_group/public_user_data/' + auth.currentUser.uid] = publicData;
-        updates['/user_group/private_user_data/' + auth.currentUser.uid] = {
-            password: pswd
-        };
-        firebase.database().ref().update(updates)
         .then(function () {
-            alert('註冊成功');
-        })
-        .catch(function (error) {
-            console.log(error);
+            alert("in");
+            var updates = {};
+            updates['/user_group/public_user_data/' + auth.currentUser.uid] = publicData;
+            updates['/user_group/private_user_data/' + auth.currentUser.uid] = {
+                password: pswd
+            };
+            firebase.database().ref().update(updates)
+                .then(function () {
+                    alert('註冊成功');
+                    console.log("Sign Up");
+                    window.location.reload();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         });
-    });
     promise.catch(e => alert(e.message));
 })
 
@@ -59,7 +61,9 @@ btnSignout.addEventListener('click', e => {
     const auth = firebase.auth();
     auth.signOut()
         .then(function () {
-            console.log("Sign out!")
+            alert("成功登出");
+            console.log("Sign out");
+            window.location.reload();
         })
         .catch(function (e) {
             console.log(e.message);
