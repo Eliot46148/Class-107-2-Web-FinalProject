@@ -242,10 +242,11 @@ function DeleteArticle(id) {
         const img_id = snapshot.val().img_id;
         const game_id = snapshot.val().game_id;
         Deletion(id, uploader, img_id, game_id);
-    }).then(function(){
-        removeData(ref);
+        var tref = database.ref(articleRef + 'article/' + id);
+        tref.remove();
         console.log(id + 'deleted');
         alert('刪除成功');
+        loadArticle();
     });
 }
 
