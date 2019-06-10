@@ -12,13 +12,10 @@ firebase.initializeApp(config);
 var storage = firebase.storage();
 var gameRef = storage.ref('default game/angrybirdsspace.swf');
 
-gameRef.getDownloadURL().then(function (url) {
-    document.getElementById('game').src = url;
+gameDownloading = gameRef.getDownloadURL().then(function (url) {
+    var gameEmbed = document.createElement('embed');
+    gameEmbed.width = '100%';
+    gameEmbed.height = '500px';
+    gameEmbed.src = url;
+    document.getElementById('content').appendChild(gameEmbed);
 });
-
-function progress(self, snapshot) {
-    var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('this is image =', percentage);
-    self.progress = percentage;
-    console.log(progress);
-}
