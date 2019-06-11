@@ -15,13 +15,63 @@ var config = {
 };
 firebase.initializeApp(config);
 
+var database = firebase.database();
 var storage = firebase.storage();
-var gameRef = storage.ref(document.getElementById('game_id').value);
+var article_id_ref = document.getElementById('article_id').value;
+var articleRef = '/article_group/';
+var userRef = '/user_group/';
+var imgRef = 'uploaded_imgs/';
+var gameRef = 'uploaded_games/';
 
-gameDownloading = gameRef.getDownloadURL().then(function (url) {
-    var gameEmbed = document.createElement('embed');
-    gameEmbed.width = '100%';
-    gameEmbed.height = '500px';
-    gameEmbed.src = url;
-    document.getElementById('content').appendChild(gameEmbed);
+database.ref(articleRef + 'article/' + article_id_ref)
+.on('value', function (snapshot1) {
+    database.ref(articleRef + 'article_list/' + article_id_ref)
+    .on('value', function (snapshot2) {
+        createArticle(article_id_ref, snapshot2.val().published, snapshot1.val());
+    });
 });
+
+function createArticle(id, published, data) {
+    console.log(id)
+    var el = document.createElement('div');
+    el.classList.add("card");
+    el.classList.add("text-white");
+    el.classList.add("bg-dark");
+    
+    var game = storage.ref(gameRef + data.game_id);
+    gameDownloading = game.getDownloadURL().then(function (url) {
+        var gameEmbed = document.createElement('embed');
+        gameEmbed.width = '100%';
+        gameEmbed.height = '500px';
+        gameEmbed.src = url;
+        el.appendChild(gameEmbed);
+
+        var strHTML =
+            '<b class="card-header" style="font-size: 20px;">' + data.title + '</b>' +
+            '<div class="card-body" id="body">' +
+            '<ul class="list-group list-group-flush">' +
+            '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
+            '  <li class="list-group-item card-text bg-dark">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
+            '</ul>' +
+            '  <p class="card-text">' + data.body + '</p>' +
+            '</div>';
+        appendHtml(el, strHTML);
+        var ref = firebase.database().ref(userRef + "public_user_data/" + data.uid)
+            .on('value',
+                function (data) {
+                    el.querySelector('#body').querySelector('ul').querySelector('#author').innerHTML = '作者：' + data.val().name;
+                },
+                function (err) {
+                    showError(err);
+                });
+        document.getElementById('content').appendChild(el);
+    });
+
+    function appendHtml(el, str) {
+        var div = document.createElement('div');
+        div.innerHTML = str;
+        while (div.children.length > 0) {
+            el.appendChild(div.children[0]);
+        }
+    }
+}

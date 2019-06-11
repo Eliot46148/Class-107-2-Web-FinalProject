@@ -88,31 +88,22 @@
          el.classList.add("text-white");
          el.classList.add("bg-dark");
          el.classList.add("col-md-3");
-         el.style = "width: 18rem;"
-         var title = document.createElement('h1');
-         var body = document.createElement('p');
-         title.innerHTML = data.title;
-         body.innerHTML = data.body;
+         el.classList.add("col-sm-12");
 
          var strHTML =
-             '<div class="card-header">' + data.title + '</div>' +
+             '<b class="card-header" style="font-size: 20px;">' + data.title + '</b>' +
              '<div class="card-body" id="body">' +
              '<img class="card-img-top" alt="Card image cap">' +
-             '  <b class="card-title" style="font-size: 20px;">' + data.title + '</b>' +
              '<ul class="list-group list-group-flush">' +
              '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
              '  <li class="list-group-item card-text bg-dark">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
              '</ul>' +
              '  <p class="card-text">' + data.body + '</p>' +
-             '  <div id="btn_group"><a href="' + '../game/index.html' + '#game_id=uploaded_games/' + data.game_id + '" class="btn btn-primary">玩遊戲</a></div>' +
+             '  <div id="btn_group"><a href="' + '../game/index.html' + '#article_id=' + id + '" class="btn btn-primary">玩遊戲</a></div>' +
              '</div>';
          appendHtml(el, strHTML);
 
          var ref = storage.ref(imgRef + data.img_id);
-         var img = document.createElement('img');
-         img.class = "card-img-top";
-         img.alt = "Card image cap";
-         img.style = ""
          ref.getDownloadURL().then(function (url) {
              el.querySelector('#body').querySelector('img').src = url;
              parent.AdjustIframeHeightOnLoad('blog');
@@ -129,7 +120,7 @@
 
          const adminUID = ["ky8AegNAuNcRy6FNtKThx8xacI52", "vxD4ir50VWc3zA2UUYaghAkv1oT2"];
          if (auth != null && (adminUID.indexOf(auth.uid) != -1 || auth.uid == data.uid)) {
-             var strTemp = '  <a href="' + '../edit/index.html' + '#game_id=uploaded_games/' + data.game_id + '" class="btn btn-secondary">編輯文章</a>';
+             var strTemp = '  <a href="' + '../edit/index.html' + '#article_id=' + id + '" class="btn btn-secondary">編輯文章</a>';
              appendHtml(el.querySelector('#btn_group'), strTemp);
              strTemp = '<button type="button" onclick="DeleteArticle(' + "'" + id + "'" + ')" class="btn btn-danger">刪除</button>';
              appendHtml(el.querySelector('#btn_group'), strTemp);
