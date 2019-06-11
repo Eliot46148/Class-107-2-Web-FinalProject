@@ -85,7 +85,9 @@
          console.log(id)
          var el = document.createElement('div');
          el.classList.add("card");
-         el.classList.add("col-md-4");
+         el.classList.add("text-white");
+         el.classList.add("bg-dark");
+         el.classList.add("col-md-3");
          el.style = "width: 18rem;"
          var title = document.createElement('h1');
          var body = document.createElement('p');
@@ -93,15 +95,16 @@
          body.innerHTML = data.body;
 
          var strHTML =
-             '<div class="card-body">' +
+             '<div class="card-header">' + data.title + '</div>' +
+             '<div class="card-body" id="body">' +
              '<img class="card-img-top" alt="Card image cap">' +
-             '  <h5 class="card-title">' + data.title + '</h5>' +
+             '  <b class="card-title" style="font-size: 20px;">' + data.title + '</b>' +
              '<ul class="list-group list-group-flush">' +
-             '  <li class="list-group-item" id="author">' + '作者：' + '</li>' +
-             '  <li class="list-group-item">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
+             '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
+             '  <li class="list-group-item card-text bg-dark">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
              '</ul>' +
              '  <p class="card-text">' + data.body + '</p>' +
-             '  <a href="' + '../game/index.html' + '#game_id=uploaded_games/' + data.game_id + '" class="btn btn-primary">玩遊戲</a>' +
+             '  <div id="btn_group"><a href="' + '../game/index.html' + '#game_id=uploaded_games/' + data.game_id + '" class="btn btn-primary">玩遊戲</a></div>' +
              '</div>';
          appendHtml(el, strHTML);
 
@@ -111,23 +114,25 @@
          img.alt = "Card image cap";
          img.style = ""
          ref.getDownloadURL().then(function (url) {
-             el.querySelector('div').querySelector('img').src = url;
+             el.querySelector('#body').querySelector('img').src = url;
              parent.AdjustIframeHeightOnLoad('blog');
          });
          var ref = firebase.database().ref(userRef + "public_user_data/" + data.uid)
              .on('value',
                  function (data) {
-                     el.querySelector('div').querySelector('ul').querySelector('#author').innerHTML = data.val().name; // children[0].children[2].children[0].innerHTML = '作者：' + data.val().name;
+                     el.querySelector('#body').querySelector('ul').querySelector('#author').innerHTML = '作者：' + data.val().name;
                      parent.AdjustIframeHeightOnLoad('blog');
                  },
                  function (err) {
                      showError(err);
                  });
 
-         const adminUID = "ky8AegNAuNcRy6FNtKThx8xacI52";
-         if (auth != null && auth.uid == adminUID) {
-             var strTemp = '<button type="button" onclick="DeleteArticle(' + "'" + id + "'" + ')" class="btn btn-danger">刪除</button>'
-             appendHtml(el.querySelector('div'), strTemp);
+         const adminUID = ["ky8AegNAuNcRy6FNtKThx8xacI52", "vxD4ir50VWc3zA2UUYaghAkv1oT2"];
+         if (auth != null && (adminUID.indexOf(auth.uid) != -1 || auth.uid == data.uid)) {
+             var strTemp = '  <a href="' + '../edit/index.html' + '#game_id=uploaded_games/' + data.game_id + '" class="btn btn-secondary">編輯文章</a>';
+             appendHtml(el.querySelector('#btn_group'), strTemp);
+             strTemp = '<button type="button" onclick="DeleteArticle(' + "'" + id + "'" + ')" class="btn btn-danger">刪除</button>';
+             appendHtml(el.querySelector('#btn_group'), strTemp);
          }
          document.getElementById('content').appendChild(el);
 
@@ -169,7 +174,7 @@
      if (title == "" || file_name == "" || img_name == "" || auth == null)
          return 0;
      var uid = auth.uid;
-     date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_").replace(' ','');
+     date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_").replace(' ', '');
      var articleData = {
          title: title,
          body: body,
@@ -234,21 +239,18 @@
  }
 
  // Admin manage functions //
-function DeleteArticle(id) {
-    console.log("Deleting " + id);
-    var ref = database.ref(articleRef + 'article/' + id);
-    ref.on('value', function (snapshot) {
-        const uploader = snapshot.val().uid;
-        const img_id = snapshot.val().img_id;
-        const game_id = snapshot.val().game_id;
-        Deletion(id, uploader, img_id, game_id);
-        var tref = database.ref(articleRef + 'article/' + id);
-        tref.remove();
-        console.log(id + 'deleted');
-        alert('刪除成功');
-        loadArticle();
-    });
-}
+ function DeleteArticle(id) {
+     console.log("Deleting " + id);
+     database.ref(articleRef + 'article/' + id)
+         .on('value', function (snapshot) {
+             const uploader = snapshot.val().uid;
+             const img_id = snapshot.val().img_id;
+             const game_id = snapshot.val().game_id;
+             Deletion(id, uploader, img_id, game_id);
+             console.log(id + 'deleted');
+             alert('刪除成功 請重新整理');
+         });
+ }
 
  function Deletion(id, uploader, img_id, game_id) {
      var dataAboutToDelete = [];
@@ -260,21 +262,22 @@ function DeleteArticle(id) {
      storAboutToDelete.push(storage.ref(imgRef + img_id));
      storAboutToDelete.push(storage.ref(gameRef + game_id));
      //////////////////////
-     dataAboutToDelete.forEach(function(item, index, array) {
-        removeData(item);
+     dataAboutToDelete.forEach(function (item, index, array) {
+         removeData(item);
      });
-     storAboutToDelete.forEach(function(item, index, array) {
-        removeStor(item);
+     storAboutToDelete.forEach(function (item, index, array) {
+         removeStor(item);
      });
+     database.ref(articleRef + 'article/' + id).remove();
  }
 
  function removeData(ref) {
-    ref.once("value")
-    .then(function(snapshot) {
-      ref.remove();
-    });
-}
+     ref.once("value")
+         .then(function (snapshot) {
+             ref.remove();
+         });
+ }
 
-function removeStor(ref) {
-    ref.delete();
-}
+ function removeStor(ref) {
+     ref.delete();
+ }

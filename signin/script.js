@@ -38,7 +38,6 @@ btnSignup.addEventListener('click', e => {
     };
     const promise = auth.createUserWithEmailAndPassword(email, pswd)
         .then(function () {
-            alert("in");
             var updates = {};
             updates['/user_group/public_user_data/' + auth.currentUser.uid] = publicData;
             updates['/user_group/private_user_data/' + auth.currentUser.uid] = {
