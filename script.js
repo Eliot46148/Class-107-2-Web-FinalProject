@@ -20,46 +20,72 @@ function AdjustIframeHeightOnLoad(id) {
 }
 
 const userName = document.getElementById('userName');
-const emailAddr = document.getElementById('emailAddr');
-const psword = document.getElementById('psword');
+const loginEmailAddr = document.getElementById('loginEmailAddr');
+const loginPsword = document.getElementById('loginPsword');
+
+const signUpUserName = document.getElementById('signUpUserName');
+const signUpEmailAddr = document.getElementById('signUpEmailAddr');
+const signUpPsword = document.getElementById('signUpPsword');
+
 const btnLogin = document.getElementById('login');
+const btnSignupWindow = document.getElementById('signupWindow');
 const btnSignup = document.getElementById('signup');
 const btnSignout = document.getElementById('signout');
 const status = document.getElementById("status");
+const userInfo = document.getElementById("UserInfo");
+const navParent = document.getElementById("navParent");
+// const loginWindow = document.getElementById("loginWindow");
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         console.log(user.email, "login");
         loginUser = firebase.auth().currentUser;
-        status.innerText = user.email + "登入成功";
+        status.innerText = "登出";
+        status.setAttribute("onclick","SignOut()");
+        status.removeAttribute("data-target");
+        btnSignupWindow.style.display = "none";
+        firebase.database().ref('/user_group/public_user_data/'+loginUser.uid).once('value').then(function(data){
+            userInfo.innerHTML = "Hello, " + data.val().name;
+        });
     } else {
         console.log("login failed");
         loginUser = null;
-        status.innerText = "未登入";
+        status.innerText = "登入";
+        status.removeAttribute("onclick");
+        status.setAttribute("data-target","#loginWindow");
+        btnSignupWindow.style.display = "inline";
+        userInfo.innerText = "";
     }
 });
 
 btnLogin.addEventListener('click', e => {
-    const email = emailAddr.value;
-    const pswd = psword.value;
+    const email = loginEmailAddr.value;
+    const pswd = loginPsword.value;
     const auth = firebase.auth();
 
-    const promise = auth.signInWithEmailAndPassword(email, pswd);
+    const promise = auth.signInWithEmailAndPassword(email, pswd)
+    .then(function(){
+        $("#loginWindow").modal("hide");
+    });
     promise.catch(e => alert(e.message));
+    
 })
-btnSignup.addEventListener('click', e => {
-    const name = userName.value;
-    const email = emailAddr.value;
-    const pswd = psword.value;
-    const auth = firebase.auth();
 
-    const publicData = {
-        email: auth.currentUser.email,
-        name: name
-    };
+function SignUp(){
+    const name = signUpUserName.value;
+    const email = signUpEmailAddr.value;
+    const pswd = signUpPsword.value;
+    const auth = firebase.auth();
+    console.log(email);
+
+    
     const promise = auth.createUserWithEmailAndPassword(email, pswd)
         .then(function () {
             var updates = {};
+            const publicData = {
+                email: auth.currentUser.email,
+                name: name
+            };
             updates['/user_group/public_user_data/' + auth.currentUser.uid] = publicData;
             updates['/user_group/private_user_data/' + auth.currentUser.uid] = {
                 password: pswd
@@ -72,20 +98,17 @@ btnSignup.addEventListener('click', e => {
                 })
                 .catch(function (error) {
                     console.log(error);
+                    
                 });
+                $("#signUpWindow").modal("hide");
         });
     promise.catch(e => alert(e.message));
-})
+}
 
-btnSignout.addEventListener('click', e => {
-    const auth = firebase.auth();
-    auth.signOut()
-        .then(function () {
-            alert("成功登出");
-            console.log("Sign out");
-            window.location.reload();
-        })
-        .catch(function (e) {
-            console.log(e.message);
-        });
-})
+function SignOut(){
+    firebase.auth().signOut().then(function(){
+        console.log("sign out!");
+    }).catch(function(e){
+        console.log(e.message);
+    });
+}

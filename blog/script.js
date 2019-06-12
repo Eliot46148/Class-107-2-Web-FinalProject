@@ -66,7 +66,7 @@
          })
 
      function producer() {
-         console.log(count, trueData)
+         //console.log(count, trueData)
          if (count === trueData && flag) {
              for (var i in articles) {
                  createArticle(articles[i].id, articles[i].published, articles[i].data)
@@ -82,7 +82,7 @@
      }
 
      function createArticle(id, published, data) {
-         console.log(id)
+         //console.log(id)
          var el = document.createElement('div');
          el.classList.add("card");
          el.classList.add("text-white");
