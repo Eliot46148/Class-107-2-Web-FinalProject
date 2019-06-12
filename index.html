@@ -18,6 +18,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
@@ -35,12 +36,57 @@
         </nav>
         <div class="collapse" id="navbarToggleExternalContent">
             <div class="bg-dark p-4">
-                <iframe src="./signin/index.html" id="SignIn" frameborder="0" width="100%"
-                onload="AdjustIframeHeightOnLoad('SignIn')"
-                ></iframe>
+                    <!-- Button trigger modal -->
+                    <a id="status" class="hvr-sweep-to-right" data-toggle="modal" data-target="#exampleModalCenter">
+                          Launch demo modal
+                    </a>
             </div>
         </div>
     </div>
+
+
+
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">會員登入</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+      
+              <form width="100%">
+                <input id="userName" type="text" class="form-control" placeholder="使用者名稱">
+                <input id="emailAddr" type="text" class="form-control" placeholder="Email">
+                <input id="psword" type="password" class="form-control" placeholder="密碼">
+                <div class="row">
+                  <div class="col-md-4">
+                  </div>
+                  <div class="col-md-4">
+                    <button id="signup" type="button" class="btn btn-secondary">註冊</button>
+                  </div>
+                  <div class="col-md-4">
+                    <button id="signout" type="button" class="btn btn-secondary">登出</button>
+                  </div>
+                </div>
+              </form>
+              
+            </div>
+            <div class="modal-footer row">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <div class="col-md-3">
+                  <a id="login" class="hvr-sweep-to-right">登入</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     <iframe src="./blog/index.html" id="blog" frameborder="0" width="100%"
         onload="AdjustIframeHeightOnLoad('blog')"></iframe>
 
