@@ -41,7 +41,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log(user.email, "login");
         loginUser = firebase.auth().currentUser;
         status.innerText = "登出";
-        status.setAttribute("onclick","SignOut()");
+        status.setAttribute("onclick","collapseAndSignOut()");
         status.removeAttribute("data-target");
         btnSignupWindow.style.display = "none";
         firebase.database().ref('/user_group/public_user_data/'+loginUser.uid).once('value').then(function(data){
@@ -51,7 +51,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log("login failed");
         loginUser = null;
         status.innerText = "登入";
-        status.removeAttribute("onclick");
+        status.setAttribute("onclick","collapse()");
         status.setAttribute("data-target","#loginWindow");
         btnSignupWindow.style.display = "inline";
         userInfo.innerText = "";
@@ -70,6 +70,15 @@ btnLogin.addEventListener('click', e => {
     promise.catch(e => alert(e.message));
     
 })
+
+function collapse(){
+    $('.collapse').collapse("hide");
+}
+
+function collapseAndSignOut(){
+    $('.collapse').collapse("hide");
+    SignOut();
+}
 
 function SignUp(){
     const name = signUpUserName.value;
