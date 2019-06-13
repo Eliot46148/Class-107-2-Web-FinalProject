@@ -89,6 +89,12 @@
          el.classList.add("bg-dark");
          el.classList.add("col-md-3");
          el.classList.add("col-sm-12");
+         var body = data.body;
+         var bodySize = 100;
+         if(body.length > bodySize){
+             body = body.substr(0, bodySize);
+             body += '<span id="dots">...</span>';
+         }
 
          var strHTML =
              '<b class="card-header" style="font-size: 20px;">' + data.title + '</b>' +
@@ -96,10 +102,12 @@
              '<img class="card-img-top" alt="Card image cap">' +
              '<ul class="list-group list-group-flush">' +
              '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
-             '  <li class="list-group-item card-text bg-dark">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
              '</ul>' +
-             '  <p class="card-text">' + data.body + '</p>' +
-             '  <div id="btn_group"><a href="' + '../game/index.html' + '#article_id=' + id + '" class="btn btn-primary">玩遊戲</a></div>' +
+             '  <p class="card-text">' + body + '</p>' +
+             '<div class="card-footer text-muted">' + 
+             '  <p>' + '最後更新時間：' + new Date(published).toLocaleString() + '</p>' +
+             '  <div id="btn_group" class="btn-group"><a href="' + '../game/index.html' + '#article_id=' + id + '" class="btn btn-primary">玩遊戲</a></div>' +
+             '</div>' +
              '</div>';
          appendHtml(el, strHTML);
 
@@ -137,83 +145,6 @@
          }
      }
  }
-
- ////////////////////// Upload Function /////////////////////
- var file;
- var img;
-
- var submitButton = document.querySelector('#submit-button');
- var titleText = document.querySelector('#title');
- var bodyText = document.querySelector('#body');
- var uploaderDiv = document.querySelector('#uploader');
-
- var imgButton = document.getElementById('imgButton');
- imgButton.addEventListener('change', function (e) {
-     img = e.target.files[0];
- });
-
- var fileButton = document.getElementById('fileButton');
- fileButton.addEventListener('change', function (e) {
-     file = e.target.files[0];
- });
- submitButton.addEventListener('click', function () {
-     var title = titleText.value;
-     var body = bodyText.value;
-     var file_name = file.name;
-     var img_name = img.name;
-     var date_submit;
-     if (title == "" || file_name == "" || img_name == "" || auth == null)
-         return 0;
-     var uid = auth.uid;
-     date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_").replace(' ', '');
-     var articleData = {
-         title: title,
-         body: body,
-         date_edited: firebase.database.ServerValue.TIMESTAMP,
-         uid: uid,
-         slug_name: title.replace(/\s/g, '-'),
-         game_id: date_submit + '_' + file_name,
-         img_id: date_submit + '_' + img_name
-     };
-     var key = firebase.database().ref(articleRef + 'article').push().key;
-     var ref = storage.ref(imgRef + date_submit + '_' + img_name);
-     ref.put(img);
-     var storageRef = storage.ref(gameRef + date_submit + '_' + file_name);
-     var task = storageRef.put(file);
-     task.on('state_changed',
-         function progress(snapshot) {
-             var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-             var uploader = uploaderDiv.children[0];
-             uploaderDiv.style = "";
-             uploader.valuenow = percentage;
-             uploader.style = "width: " + percentage + "%";
-         },
-
-         function error(err) {},
-
-         function complete() {
-             var updates = {};
-             updates[articleRef + 'article/' + key] = articleData;
-             updates[articleRef + 'article_list/' + key] = {
-                 published: firebase.database.ServerValue.TIMESTAMP
-             };
-             updates[userRef + 'public_user_data/' + auth.uid + '/uploaded/' + key] = {
-                 published: firebase.database.ServerValue.TIMESTAMP
-             };
-             count = 0;
-             return firebase.database().ref().update(updates)
-                 .then(function () {
-                     alert('發表成功');
-                     loadArticle();
-                 })
-                 .catch(function (error) {
-                     console.log(error);
-                 });
-         }
-     );
- });
-
- ////////////////////////////////////////////////
 
  function readURL(input) {
      if (input.files && input.files[0]) {

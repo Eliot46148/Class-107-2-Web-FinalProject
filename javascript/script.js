@@ -121,3 +121,7 @@ function SignOut(){
         console.log(e.message);
     });
 }
+
+function ChangeTitle(title){
+    document.title = "北科遊戲雲 - " + title;
+}

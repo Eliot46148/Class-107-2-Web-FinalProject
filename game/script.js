@@ -37,18 +37,17 @@ function createArticle(id, published, data) {
     el.classList.add("card");
     el.classList.add("text-white");
     el.classList.add("bg-dark");
+    el.classList.add("align-items-center");
     
     var game = storage.ref(gameRef + data.game_id);
     gameDownloading = game.getDownloadURL().then(function (url) {
-        var gameEmbed = document.createElement('embed');
-        gameEmbed.width = '100%';
-        gameEmbed.height = '500px';
-        gameEmbed.src = url;
+        var gameEmbed = document.createElement('object');
+        gameEmbed.id = 'iflash';
         el.appendChild(gameEmbed);
 
         var strHTML =
-            '<b class="card-header" style="font-size: 20px;">' + data.title + '</b>' +
-            '<div class="card-body" id="body">' +
+            '<b class="card-header w-100" style="font-size: 20px;">' + data.title + '</b>' +
+            '<div class="card-body w-100" id="body">' +
             '<ul class="list-group list-group-flush">' +
             '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
             '  <li class="list-group-item card-text bg-dark">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
@@ -65,6 +64,18 @@ function createArticle(id, published, data) {
                     showError(err);
                 });
         document.getElementById('content').appendChild(el);
+
+        var flashvars = {};
+        var params = {};
+          params.menu="false";
+          params.wmode="transparent";
+          params.bgcolor="#CCCCCC";
+          params.allowfullscreen="true";
+       params.allowscriptaccess="always";
+        var attributes = {};
+          attributes.id="iflash";
+          attributes.name="iflash";
+        swfobject.embedSWF(url, "iflash", "50%", "500", "10.0.2", "false", flashvars, params, attributes);
     });
 
     function appendHtml(el, str) {
