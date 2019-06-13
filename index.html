@@ -37,17 +37,17 @@
       <div class="bg-dark p-4" id="navParent">
         <!-- Button trigger modal -->
         <div id="UserInfo" style="color: white; font-size: 20px"></div>
-        <a id="status" class="hvr-sweep-to-right" data-toggle="modal" data-target="#loginWindow" onclick="collapse()">
-          Launch demo modal
-        </a>
-        <a id="signupWindow" class="hvr-sweep-to-right" data-toggle="modal" data-target="#signUpWindow"
-          onclick="collapse()">
-          註冊
-        </a>
-        <a id="userWindow" class="hvr-sweep-to-right"
-          onclick="collapse(); document.getElementById('blog').src = 'upload/index.html';">
-          使用者介面
-        </a>
+        <div class="btn-group">
+            <a id="status" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#loginWindow" onclick="collapse()"></a>
+            <a id="signupWindow" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#signUpWindow"
+              onclick="collapse()">
+              註冊
+            </a>
+            <a id="userWindow" class="hvr-sweep-to-right btn"
+              onclick="collapse(); document.getElementById('blog').src = 'upload/index.html';">
+              使用者介面
+            </a>
+        </div>
       </div>
     </div>
   </div>
