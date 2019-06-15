@@ -35,18 +35,28 @@ function createArticle(id, published, data) {
     console.log(id)
     var el = document.createElement('div');
     el.classList.add("card");
+    el.classList.add("collapse");
     el.classList.add("text-white");
     el.classList.add("bg-dark");
     el.classList.add("align-items-center");
+    el.classList.add("align-items-stretchs");
+    el.id = "navbarToggleExternalContent";
+    el.style = "height: 100%";
     
     var game = storage.ref(gameRef + data.game_id);
     gameDownloading = game.getDownloadURL().then(function (url) {
         var gameEmbed = document.createElement('object');
         gameEmbed.id = 'iflash';
-        el.appendChild(gameEmbed);
+        document.getElementById('content').appendChild(gameEmbed);
+        document.getElementById('content').innerHTML +=
+        '<nav class="navbar navbar-dark bg-dark w-100">' +
+        '  <button class="navbar-toggler w-100 d-flex justify-content-between align-items-center" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">' +
+        '    <b class="card-header" style="font-size: 20px;">' + data.title + '</b>' +
+        '    <span class="navbar-toggler-icon"></span>' +
+        '  </button>' +
+        '</nav>';
 
         var strHTML =
-            '<b class="card-header w-100" style="font-size: 20px;">' + data.title + '</b>' +
             '<div class="card-body w-100" id="body">' +
             '<ul class="list-group list-group-flush">' +
             '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
@@ -75,7 +85,8 @@ function createArticle(id, published, data) {
         var attributes = {};
           attributes.id="iflash";
           attributes.name="iflash";
-        swfobject.embedSWF(url, "iflash", "50%", "500", "10.0.2", "false", flashvars, params, attributes);
+        swfobject.embedSWF(url, "iflash", "100%", "100%", "10.0.2", "false", flashvars, params, attributes);
+        document.getElementById('iflash').data = url;
     });
 
     function appendHtml(el, str) {
