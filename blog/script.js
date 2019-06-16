@@ -91,7 +91,7 @@
          el.classList.add("card");
          el.classList.add("text-white");
          el.classList.add("bg-dark");
-         el.classList.add("col-md-3");
+         el.classList.add("col-md-4");
          el.classList.add("col-sm-12");
          var body = data.body;
          var bodySize = 100;
@@ -133,8 +133,9 @@
                  });
 
          var ref = storage.ref(imgRef + data.img_id);
+
          ref.getDownloadURL().then(function (url) {
-             el.querySelector('#body').querySelector('img').src = url;
+            el.querySelector('div').querySelector('img').src = url;
          });
          document.getElementById('content').appendChild(el);
      }

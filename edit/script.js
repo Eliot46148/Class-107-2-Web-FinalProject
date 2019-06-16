@@ -17,6 +17,12 @@ var config = {
     appId: "1:825744686702:web:18baeb1ddfb42964"
 };
 firebase.initializeApp(config);
+var auth = firebase.auth().currentUser;
+
+// Auto-login when login
+firebase.auth().onAuthStateChanged(function (user) {
+    auth = user;
+});
 
 var database = firebase.database();
 var storage = firebase.storage();
@@ -40,17 +46,17 @@ function createArticle(id, published, data) {
     el.classList.add("card");
 
     var strHTML =
-        '<input type="text" class="card-header" style="font-size: 20px;" placeholder="標題" value="' + data.title + '">' +
+        '<input type="text" class="card-header" id="title" style="font-size: 20px;" placeholder="標題" value="' + data.title + '">' +
         '<div class="card-body" id="body">' +
         '<a href="' + hash + '"><img class="card-img-top" alt="Card image cap" style="max-width: 300px;" id="preview"></a>' +
         '<input type="file" accept="image/gif, image/jpeg, image/png" id="imgButton" value="upload" style="width: 100%" onchange="readURL(this);" required>' +
-        '<label>選擇遊戲檔案</label><br /><input type="file" accept=".swf" id="fileButton" value="upload" style="width: 100%" required><br />' +
+        '<label>選擇遊戲檔案</label><br /><input type="file" accept=".swf" id="fileButton" value="upload" style="width: 100%" onchange="file = e.target.files[0];"><br />' +
         '<ul class="list-group list-group-flush">' +
         '  <li class="list-group-item card-text" id="author">' + '作者：' + '</li>' +
         '  <li class="list-group-item card-text">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
         '</ul>' +
-        '  <textarea class="card-text" rows="5" placeholder="描述" style="width: 100%">' + data.body + '</textarea>' +
-        '<button type="button" class="btn btn-success">提交(目前沒功能)</button>' +
+        '  <textarea class="card-text" rows="5" placeholder="描述" style="width: 100%" id="body">' + data.body + '</textarea>' +
+        '<button type="button" class="btn btn-success" onclick="Submit()">提交(目前沒功能)</button>' +
         '</div>';
     appendHtml(el, strHTML);
 
@@ -75,6 +81,74 @@ function createArticle(id, published, data) {
             el.appendChild(div.children[0]);
         }
     }
+}
+
+var file;
+var img;
+function Submit() {
+    var titleText = document.querySelector('#title');
+    var bodyText = document.querySelector('#body');
+    var uploaderDiv = document.querySelector('#uploader');
+
+    var title = titleText.value;
+    var body = bodyText.value;
+    var file_name
+    if(file != null)
+        file_name = file.name;
+    var img_name
+    if(img != null)
+        img_name = img.name;
+    var date_submit;
+    if (title == "" || img_name == "" || auth == null)
+        return 0;
+    var uid = auth.uid;
+    alert(title, body, file_name, img_name, bodyText);
+    /*date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_").replace(' ', '');
+    var articleData = {
+        title: title,
+        body: body,
+        date_edited: firebase.database.ServerValue.TIMESTAMP,
+        uid: uid,
+        slug_name: title.replace(/\s/g, '-'),
+        game_id: date_submit + '_' + file_name,
+        img_id: date_submit + '_' + img_name
+    };
+    var key = firebase.database().ref(articleRef + 'article').push().key;
+    var ref = storage.ref(imgRef + date_submit + '_' + img_name);
+    ref.put(img);
+    var storageRef = storage.ref(gameRef + date_submit + '_' + file_name);
+    var task = storageRef.put(file);
+    task.on('state_changed',
+        function progress(snapshot) {
+            var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            var uploader = uploaderDiv.children[0];
+            uploaderDiv.style = "";
+            uploader.valuenow = percentage;
+            uploader.style = "width: " + percentage + "%";
+        },
+
+        function error(err) {},
+
+        function complete() {
+            var updates = {};
+            updates[articleRef + 'article/' + key] = articleData;
+            updates[articleRef + 'article_list/' + key] = {
+                published: firebase.database.ServerValue.TIMESTAMP
+            };
+            updates[userRef + 'public_user_data/' + auth.uid + '/uploaded/' + key] = {
+                published: firebase.database.ServerValue.TIMESTAMP
+            };
+            count = 0;
+            return firebase.database().ref().update(updates)
+                .then(function () {
+                    alert('發表成功');
+                    loadArticle();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    );*/
 }
 
 function readURL(input) {
