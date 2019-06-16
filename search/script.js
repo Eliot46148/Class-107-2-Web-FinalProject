@@ -4,6 +4,10 @@ const target = document.getElementById('target');
 const content = document.getElementById('content');
 const result = document.getElementById('result');
 
+window.onload = function () {
+    setInterval("parent.AdjustIframeHeight('blog')", 10);
+}
+
 function search() {
     console.log("Enter Search!");
     if(target.value == ""){

@@ -6,10 +6,19 @@
          break;
      document.getElementById(p[0]).value = decodeURIComponent(p[1]);
  }
+
+ window.onload = function () {
+     setInterval("parent.AdjustIframeHeight('blog')", 10);
+ }
  
- $(parent).on('scroll', function() {
-     parent.AdjustIframeHeight('blog');
-});
+ function AdjustIframeHeight(id) {
+    var iframeid = document.getElementById(id);
+    var body = iframeid.contentDocument.body,
+    html = iframeid.contentDocument.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight, 
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+    iframeid.height = height;
+}
 
  // Common Variables //
  const storage = firebase.storage();
@@ -117,7 +126,7 @@
 
          const adminUID = ["ky8AegNAuNcRy6FNtKThx8xacI52", "vxD4ir50VWc3zA2UUYaghAkv1oT2"];
          if (auth != null && (adminUID.indexOf(auth.uid) != -1 || auth.uid == data.uid)) {
-             var strTemp = '  <a href="' + '../edit/index.html' + '#article_id=' + id + '" class="btn btn-secondary">編輯文章</a>';
+             var strTemp = '  <a href="' + '../upload/index.html' + '#article_id=' + id + '" class="btn btn-secondary">編輯文章</a>';
              appendHtml(el.querySelector('#btn_group'), strTemp);
              strTemp = '<button type="button" onclick="DeleteArticle(' + "'" + id + "'" + ')" class="btn btn-danger">刪除</button>';
              appendHtml(el.querySelector('#btn_group'), strTemp);

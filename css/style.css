@@ -66,8 +66,8 @@ a.hvr-sweep-to-right:hover:before, a.hvr-sweep-to-right:focus:before, a.hvr-swee
   width: 100%;
 }
 .blur {
-  filter: blur(8px);
-  -webkit-filter: blur(8px);
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
 }
 .pdx-15{
   padding-left: 10%;
