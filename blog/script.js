@@ -59,8 +59,8 @@
                      articles.sort(function (a, b) {
                          return a.published < b.published
                      });
+                     console.log(articles.length);
                      producer();
-
                  }, function (err) {
                      showError(err);
                  });
@@ -76,6 +76,7 @@
              }
              flag = false
          }
+         console.log(articles.length);
      }
 
      function showError(err) {

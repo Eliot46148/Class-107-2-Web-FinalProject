@@ -1,44 +1,50 @@
 const db = firebase.database();
 const storage = firebase.storage();
-const title = document.getElementById('title');
 const target = document.getElementById('target');
-var result = [];
-
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        title.innerText = user.email;
-    } else {
-        title.innerText = "未登入";
-    }
-});
+const content = document.getElementById('content');
+const result = document.getElementById('result');
 
 function search() {
     console.log("Enter Search!");
+    if(target.value == ""){
+        alert("請輸入關鍵字");
+        return;
+    }
+    else
+        var key = target.value;
+    console.log(key);
+    result.innerHTML = "";
+    db.ref('/article_group/article_list')
+        .orderByChild('published')
+        .on('child_added', function (snapshot) {
+            db.ref('/article_group/article/' + snapshot.key)
+                .on('value', function (articleData) {
+                    if(articleData.val().title.includes(key) || articleData.val().body.includes(key))
+                        addResult(snapshot.key, snapshot.val().published, articleData.val());
+                }, function (err) {
+                    console.log(err.message);
+                });
+        }, function (err) {
+            alert(err);
+        });
+}
 
-    db.ref('/article_group/article'+'Lh1tepy_ireEXsuELxB').orderByKey().once('value').then(function(snapshot){
-        result.push(snapshot.val());
-    });
+function addResult(id, published, data) {
+    console.log('add');
+    var node = document.createElement('div');
 
-    // db.ref('/article_group/article_list')
-    //     .orderByChild('published').limitToLast(100).startAt(1)
-    //     .on('child_added', function (data) {
-    //         db.ref('/article_group/article/' + data.key)
-    //             .on('value', function (articleData) {
-    //                 articles.unshift({
-    //                     id: data.key,
-    //                     published: data.val().published,
-    //                     data: articleData.val()
-    //                 });
-    //                 articles.sort(function (a, b) {
-    //                     return a.published < b.published
-    //                 });
-    //                 //  producer();
-    //             }, function (err) {
-    //                 showError(err);
-    //             });
+    var title = document.createElement('p');
+    title.innerText = data.title;
+    node.appendChild(title);
 
-    //     }, function (err) {
-    //         alert(err);
-    //     });
-    console.log(result);
+    var date = document.createElement('p');
+    date.innerText = published;
+    node.appendChild(date);
+
+
+    var idtext = document.createElement('p');
+    idtext.innerText = id;
+    node.appendChild(idtext);
+
+    result.appendChild(node);
 }
