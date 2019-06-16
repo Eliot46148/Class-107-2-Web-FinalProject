@@ -32,12 +32,6 @@
         <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html')">
           <p class="m-0">熱門遊戲</p>
         </button>
-        <div class="input-group input-group-sm">
-          <input type="text" id="target" class="form-control" placeholder="請輸入關鍵字">
-          <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html')">
-            <p class="m-0">搜尋</p>
-          </button>
-        </div>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
           aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +42,12 @@
         <hr class="p-0 m-0 bg-white">
         <div class="p-4" id="navParent">
           <!-- Button trigger modal -->
+        <div class="input-group input-group-sm">
+            <input type="text" id="target" class="form-control" placeholder="請輸入關鍵字">
+            <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html'); collapse();">
+              <p class="m-0">搜尋</p>
+            </button>
+          </div>
           <div id="UserInfo" style="color: white; font-size: 20px"></div>
           <div class="btn-group">
             <a id="status" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#loginWindow"
