@@ -113,3 +113,61 @@ function appendHtml(el, str) {
         el.appendChild(div.children[0]);
     }
 }
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#preview')
+                .attr('src', e.target.result)
+                .width('25%');
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Admin manage functions //
+function DeleteArticle(id) {
+    console.log("Deleting " + id);
+    database.ref(articleRef + 'article/' + id)
+        .on('value', function (snapshot) {
+            const uploader = snapshot.val().uid;
+            const img_id = snapshot.val().img_id;
+            const game_id = snapshot.val().game_id;
+            Deletion(id, uploader, img_id, game_id);
+            console.log(id + 'deleted');
+            alert('刪除成功 請重新整理');
+        });
+}
+
+function Deletion(id, uploader, img_id, game_id) {
+    var dataAboutToDelete = [];
+    // Database Deletion //
+    dataAboutToDelete.push(database.ref(articleRef + 'article_list/' + id));
+    dataAboutToDelete.push(database.ref(userRef + 'public_user_data/' + uploader + '/uploaded/' + id));
+    // Storage Deletion //
+    var storAboutToDelete = [];
+    storAboutToDelete.push(storage.ref(imgRef + img_id));
+    storAboutToDelete.push(storage.ref(gameRef + game_id));
+    //////////////////////
+    dataAboutToDelete.forEach(function (item, index, array) {
+        removeData(item);
+    });
+    storAboutToDelete.forEach(function (item, index, array) {
+        removeStor(item);
+    });
+    database.ref(articleRef + 'article/' + id).remove();
+}
+
+function removeData(ref) {
+    ref.once("value")
+        .then(function (snapshot) {
+            ref.remove();
+        });
+}
+
+function removeStor(ref) {
+    ref.delete();
+}

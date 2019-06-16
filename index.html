@@ -32,6 +32,13 @@
         <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html')">
           <p class="m-0">熱門遊戲</p>
         </button>
+        <div class="input-group input-group-sm">
+          <input type="text" id="target" class="form-control" placeholder="請輸入關鍵字">
+          <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html')">
+            <p class="m-0">搜尋</p>
+          </button>
+        </div>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
           aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -117,11 +124,10 @@
     </div>
   </div>
 
-  <!-- <iframe src="mainpage/index.html" class="pdx-15" id="blog" frameborder="0" width="100%"
-    onload="AdjustIframeHeightOnLoad('blog')" scrolling="no"></iframe> -->
-  <iframe src="./search/index.html" id='blog' class="pdx-15" frameborder="0" onload="AdjustIframeHeightOnLoad('search')"
-    scrolling="no" width="100%" height="3000px">
-  </iframe>
+  <iframe src="mainpage/index.html" class="pdx-15" id="blog" frameborder="0" width="100%"
+    onload="AdjustIframeHeightOnLoad('blog')" scrolling="no"></iframe>
+  <!-- <iframe src="./search/index.html" class="pdx-15" id="blog" frameborder="0" width="100%"
+  onload="AdjustIframeHeightOnLoad('blog')" scrolling="no"></iframe> -->
 
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
