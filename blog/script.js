@@ -48,7 +48,6 @@
      database.ref(articleRef + 'article_list')
          .orderByChild('published').limitToLast(limit).startAt(1)
          .on('child_added', function (data) {
-
              database.ref(articleRef + 'article/' + data.key)
                  .on('value', function (articleData) {
                      count++;
@@ -60,14 +59,14 @@
                      articles.sort(function (a, b) {
                          return a.published < b.published
                      });
+                     console.log(articles.length);
                      producer();
-
                  }, function (err) {
                      showError(err);
                  });
          }, function (err) {
              alert(err);
-         })
+         });
 
      function producer() {
          //console.log(count, trueData)
@@ -77,6 +76,7 @@
              }
              flag = false
          }
+         console.log(articles.length);
      }
 
      function showError(err) {

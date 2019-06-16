@@ -11,13 +11,13 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-  </script>
+    </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-  </script>
+    </script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-  </script>
+    </script>
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -25,36 +25,37 @@
   <div class="pos-f-t" name="top">
     <div class="w-100" id="nav-bg"></div>
     <div class="bg-text navbar-dark fixed-top pdx-15" id="nav-body">
-        <nav class="navbar">
-          <button class="btn p-0" type="button" onclick="location.href=''">
-            <img src="./resource/logo.png" alt="" width="50px">
-          </button>
-          <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html')">
-            <p class="m-0">熱門遊戲</p>
-          </button>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-            aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </nav>
-        <div class="collapse" id="navbarToggleExternalContent">
-          <hr class="p-0 m-0 bg-white">
-          <div class="p-4" id="navParent">
-            <!-- Button trigger modal -->
-            <div id="UserInfo" style="color: white; font-size: 20px"></div>
-            <div class="btn-group">
-                <a id="status" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#loginWindow" onclick="collapse()">登入</a>
-                <a id="signupWindow" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#signUpWindow"
-                  onclick="collapse()">
-                  註冊
-                </a>
-                <a id="userWindow" class="hvr-sweep-to-right btn"
-                  onclick="collapse(); document.getElementById('blog').src = 'upload/index.html';">
-                  使用者介面
-                </a>
-            </div>
+      <nav class="navbar">
+        <button class="btn p-0" type="button" onclick="location.href=''">
+          <img src="./resource/logo.png" alt="" width="50px">
+        </button>
+        <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html')">
+          <p class="m-0">熱門遊戲</p>
+        </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+          aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+      <div class="collapse" id="navbarToggleExternalContent">
+        <hr class="p-0 m-0 bg-white">
+        <div class="p-4" id="navParent">
+          <!-- Button trigger modal -->
+          <div id="UserInfo" style="color: white; font-size: 20px"></div>
+          <div class="btn-group">
+            <a id="status" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#loginWindow"
+              onclick="collapse()">登入</a>
+            <a id="signupWindow" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#signUpWindow"
+              onclick="collapse()">
+              註冊
+            </a>
+            <a id="userWindow" class="hvr-sweep-to-right btn"
+              onclick="collapse(); document.getElementById('blog').src = 'upload/index.html';">
+              使用者介面
+            </a>
           </div>
         </div>
+      </div>
     </div>
   </div>
 
@@ -118,6 +119,9 @@
 
   <iframe src="mainpage/index.html" class="pdx-15" id="blog" frameborder="0" width="100%"
     onload="AdjustIframeHeightOnLoad('blog')" scrolling="no"></iframe>
+  <!-- <iframe src="./search/index.html" id='blog' class="pdx-15" frameborder="0" onload="AdjustIframeHeightOnLoad('search')"
+    scrolling="no" width="100%" height="1000px"> -->
+  </iframe>
 
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
