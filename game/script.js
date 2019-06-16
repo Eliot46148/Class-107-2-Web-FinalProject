@@ -39,7 +39,7 @@ function createArticle(id, published, data) {
     el.classList.add("text-white");
     el.classList.add("bg-dark");
     el.classList.add("align-items-center");
-    el.classList.add("align-items-stretchs");
+    el.classList.add("align-items-stretch");
     el.id = "navbarToggleExternalContent";
     el.style = "height: 100%";
     

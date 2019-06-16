@@ -6,6 +6,10 @@
          break;
      document.getElementById(p[0]).value = decodeURIComponent(p[1]);
  }
+ 
+ $(parent).on('scroll', function() {
+     parent.AdjustIframeHeight('blog');
+});
 
  // Common Variables //
  const storage = firebase.storage();
@@ -98,33 +102,18 @@
 
          var strHTML =
              '<b class="card-header" style="font-size: 20px;">' + data.title + '</b>' +
-             '<div class="card-body" id="body">' +
+             '<div class="card-body d-flex flex-column" id="body">' +
              '<img class="card-img-top" alt="Card image cap">' +
              '<ul class="list-group list-group-flush">' +
              '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
              '</ul>' +
-             '  <p class="card-text">' + body + '</p>' +
-             '<div class="card-footer text-muted">' + 
+             '  <p class="card-text align-self-stretch h-100">' + body + '</p>' +
+             '<div class="card-footer text-muted align-self-end">' + 
              '  <p>' + '最後更新時間：' + new Date(published).toLocaleString() + '</p>' +
              '  <div id="btn_group" class="btn-group"><a href="' + '../game/index.html' + '#article_id=' + id + '" class="btn btn-primary">玩遊戲</a></div>' +
              '</div>' +
              '</div>';
          appendHtml(el, strHTML);
-
-         var ref = storage.ref(imgRef + data.img_id);
-         ref.getDownloadURL().then(function (url) {
-             el.querySelector('#body').querySelector('img').src = url;
-             parent.AdjustIframeHeightOnLoad('blog');
-         });
-         var ref = firebase.database().ref(userRef + "public_user_data/" + data.uid)
-             .on('value',
-                 function (data) {
-                     el.querySelector('#body').querySelector('ul').querySelector('#author').innerHTML = '作者：' + data.val().name;
-                     parent.AdjustIframeHeightOnLoad('blog');
-                 },
-                 function (err) {
-                     showError(err);
-                 });
 
          const adminUID = ["ky8AegNAuNcRy6FNtKThx8xacI52", "vxD4ir50VWc3zA2UUYaghAkv1oT2"];
          if (auth != null && (adminUID.indexOf(auth.uid) != -1 || auth.uid == data.uid)) {
@@ -133,8 +122,21 @@
              strTemp = '<button type="button" onclick="DeleteArticle(' + "'" + id + "'" + ')" class="btn btn-danger">刪除</button>';
              appendHtml(el.querySelector('#btn_group'), strTemp);
          }
-         document.getElementById('content').appendChild(el);
 
+         var ref = firebase.database().ref(userRef + "public_user_data/" + data.uid)
+             .on('value',
+                 function (data) {
+                     el.querySelector('#body').querySelector('ul').querySelector('#author').innerHTML = '作者：' + data.val().name;
+                 },
+                 function (err) {
+                     showError(err);
+                 });
+
+         var ref = storage.ref(imgRef + data.img_id);
+         ref.getDownloadURL().then(function (url) {
+             el.querySelector('#body').querySelector('img').src = url;
+         });
+         document.getElementById('content').appendChild(el);
      }
      ////// Append HTML by plain text //////
      function appendHtml(el, str) {

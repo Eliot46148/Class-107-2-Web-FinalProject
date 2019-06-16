@@ -19,6 +19,15 @@ function AdjustIframeHeightOnLoad(id) {
     }
 }
 
+function AdjustIframeHeight(id) {
+    var iframeid = document.getElementById(id);
+    var body = iframeid.contentDocument.body,
+    html = iframeid.contentDocument.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight, 
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+    iframeid.height = height;
+}
+
 const userName = document.getElementById('userName');
 const loginEmailAddr = document.getElementById('loginEmailAddr');
 const loginPsword = document.getElementById('loginPsword');
@@ -124,4 +133,9 @@ function SignOut(){
 
 function ChangeTitle(title){
     document.title = "北科遊戲雲 - " + title;
+}
+
+function Goto(iframe, url){
+    iframe.src = url;
+    location.href = "#top";
 }

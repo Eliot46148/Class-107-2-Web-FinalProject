@@ -1,3 +1,8 @@
+@import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+p, h1, h2{
+    font-family: 'cwTeXYen', sans-serif;
+    font-weight: 300;
+}
 
 /* Sweep To Right */
 a.hvr-sweep-to-right {
@@ -54,4 +59,17 @@ a.hvr-sweep-to-right:hover, a.hvr-sweep-to-right:focus, a.hvr-sweep-to-right:act
 a.hvr-sweep-to-right:hover:before, a.hvr-sweep-to-right:focus:before, a.hvr-sweep-to-right:active:before {
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
+}
+
+.bg-text {
+  background-color: rgba(0,0,0, 0.6); /* Black w/opacity/see-through */
+  width: 100%;
+}
+.blur {
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
+.pdx-15{
+  padding-left: 10%;
+  padding-right: 10%;
 }
