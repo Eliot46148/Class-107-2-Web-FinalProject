@@ -127,9 +127,12 @@
          var el = document.createElement('div');
          el.classList.add("card");
          el.classList.add("text-white");
-         el.classList.add("bg-dark");
+         el.classList.add("shadow");
+         el.classList.add("bg-grad");
          el.classList.add("col-md-4");
          el.classList.add("col-sm-12");
+         el.classList.add("d-flex");
+         el.classList.add("flex-column");
          var body = data.body;
          var bodySize = 100;
          if (body.length > bodySize) {
@@ -142,12 +145,12 @@
              '<div class="card-body d-flex flex-column" id="body">' +
              '<img class="card-img-top" alt="Card image cap">' +
              '<ul class="list-group list-group-flush">' +
-             '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
+             '  <li class="shadow" id="author">' + '作者：' + '</li>' +
              '</ul>' +
-             '  <p class="card-text align-self-stretch h-100">' + body + '</p>' +
-             '<div class="card-footer text-muted align-self-end">' +
-             '  <p>' + '最後更新時間：' + new Date(published).toLocaleString() + '</p>' +
-             '  <div id="btn_group" class="btn-group"><a href="' + '../game/index.html' + '#article_id=' + id + '" class="btn btn-primary">玩遊戲</a></div>' +
+             '  <p class="card-text">' + body.replace(/(?:\r\n|\r|\n)/g, '<br>') + '</p>' +
+             '<div class="card-footer text-muted align-self-end" style="margin-top: auto;">' +
+             '  <p class="text-white">' + '最後更新時間：' + new Date(published).toLocaleString() + '</p>' +
+             '  <div id="btn_group" class="btn-group"><a target="_blank" href="' + '../game/index.html' + '#article_id=' + id + '" class="btn btn-primary">玩遊戲</a></div>' +
              '</div>' +
              '</div>';
          appendHtml(el, strHTML);

@@ -62,7 +62,7 @@ function createArticle(id, published, data) {
             '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
             '  <li class="list-group-item card-text bg-dark">' + '最後更新時間：' + new Date(published).toLocaleString() + '</li>' +
             '</ul>' +
-            '  <p class="card-text">' + data.body + '</p>' +
+            '  <p class="card-text">' + data.body.replace(/(?:\r\n|\r|\n)/g, '<br>') + '</p>' +
             '</div>';
         appendHtml(el, strHTML);
         var ref = firebase.database().ref(userRef + "public_user_data/" + data.uid)
