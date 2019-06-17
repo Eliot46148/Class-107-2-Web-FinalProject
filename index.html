@@ -44,7 +44,7 @@
           <!-- Button trigger modal -->
         <div class="input-group input-group-sm">
             <input type="text" id="target" class="form-control" placeholder="請輸入關鍵字">
-            <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html'); collapse();">
+            <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html#search_content=' + document.getElementById('target').value); collapse();">
               <p class="m-0">搜尋</p>
             </button>
           </div>

@@ -20,9 +20,15 @@
 </head>
 
 <body>
-    <iframe src="../search/index.html" id='blog' class="pdx-15" frameborder="0"
-        scrolling="no" width="100%" height="200px">
-    </iframe>
+    <div class="container" style="margin-top: 65px">
+        <form>
+            <div class="form-group">
+                <input type="text" id="search_content" class="form-control" placeholder="請輸入關鍵字">
+                <button type="button" class="btn btn-primary" onclick="loadArticle();">搜尋</button>
+            </div>
+            <div id="content" class="row"></div>
+        </form>
+    </div>
     <div id="content" class="row">
     </div>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
