@@ -41,16 +41,9 @@
 </head>
 
 <body>
-    <div class="container bg-blur" style="margin-top: 65px">
-        <form>
-            <div class="form-group">
-                <input class="form-control" type="text" id="search_content" class="form-control" placeholder="請輸入關鍵字">
-                <button type="button" class="btn btn-primary" onclick="loadArticle();">搜尋</button>
-            </div>
-            <div id="content" class="row"></div>
-        </form>
-    </div>
-    <div id="content" class="row">
+    <div class="container bg-blur" style="margin-top: 85px">
+        <input class="form-control col-8" type="text" id="search_content" class="form-control" placeholder="請輸入關鍵字" style="display: none;">
+        <div id="content" class="row"></div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>

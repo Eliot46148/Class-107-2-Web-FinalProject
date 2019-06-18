@@ -19,6 +19,20 @@ function AdjustIframeHeightOnLoad(id) {
     }
 }
 
+function AdjustIframeLoading(id) {
+    var iframeidLoading = document.getElementById(id);
+    var iframeid = document.getElementById('blog');
+    if (document.getElementById) {
+        if (iframeid && !window.opera) {
+            if (iframeid.contentDocument && iframeid.contentDocument.body.offsetHeight) {
+                iframeidLoading.height = iframeid.contentDocument.body.offsetHeight;
+            } else if (iframeid.Document && iframeid.Document.body.scrollHeight) {
+                iframeidLoading.height = iframeid.Document.body.scrollHeight;
+            }
+        }
+    }
+}
+
 function AdjustIframeHeight(id) {
     var iframeid = document.getElementById(id);
     var body = iframeid.contentDocument.body,
@@ -147,5 +161,16 @@ function Goto(iframe, url, name){
     else
         iframe.src = url;
     location.href = "#top";
+    document.title = name;
+}
+
+function GotoSpec(iframe, url, name){
+    if(iframe.src.includes(url.substr(0, 6))){
+        $(iframe).attr("src", url);
+        iframe.contentWindow.location.reload();
+    }
+    else
+        iframe.src = url;
+    location.href = "../index.html#top";
     document.title = name;
 }

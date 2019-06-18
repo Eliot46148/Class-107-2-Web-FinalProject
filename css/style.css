@@ -69,20 +69,24 @@ a.hvr-sweep-to-right:hover:before, a.hvr-sweep-to-right:focus:before, a.hvr-swee
   filter: blur(2px);
   -webkit-filter: blur(2px);
 }
-.pdx-15{
-  padding-left: 10%;
-  padding-right: 10%;
+.pdx-10{
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 @media screen and (min-width: 400px) and (max-width: 700px) {
   iframe {
     width: 100%;
   }
+  .pdx-10{
+    padding-left: 5%;
+    padding-right: 5%;
+  }
 }
-.emerge {
-  opacity: 1 !important; 
-  transition: opacity 1s ease-out;
-}
-#top-nav {
-  opacity: 0; 
+
+#loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

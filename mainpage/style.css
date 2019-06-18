@@ -34,6 +34,7 @@
   
   .centered a p:hover{
     letter-spacing: 15px;
+    cursor: pointer;
   }
   
   
