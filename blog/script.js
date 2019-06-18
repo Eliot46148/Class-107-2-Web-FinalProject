@@ -10,15 +10,15 @@
  window.onload = function () {
      setInterval("parent.AdjustIframeHeight('blog')", 10);
  }
- 
+
  function AdjustIframeHeight(id) {
-    var iframeid = document.getElementById(id);
-    var body = iframeid.contentDocument.body,
-    html = iframeid.contentDocument.documentElement;
-    var height = Math.max( body.scrollHeight, body.offsetHeight, 
-        html.clientHeight, html.scrollHeight, html.offsetHeight );
-    iframeid.height = height;
-}
+     var iframeid = document.getElementById(id);
+     var body = iframeid.contentDocument.body,
+         html = iframeid.contentDocument.documentElement;
+     var height = Math.max(body.scrollHeight, body.offsetHeight,
+         html.clientHeight, html.scrollHeight, html.offsetHeight);
+     iframeid.height = height;
+ }
 
  // Common Variables //
  const storage = firebase.storage();
@@ -45,37 +45,65 @@
      var articles = [];
      var content = document.getElementById('content');
      content.innerHTML = '';
-     database.ref(articleRef + 'article_list')
-         .on('value', function (snapshot) {
-             trueData = 0;
-             snapshot.forEach(function (childSnapshot) {
-                 if (trueData < limit)
-                     trueData++;
-             });
-         });
 
-     database.ref(articleRef + 'article_list')
-         .orderByChild('published').limitToLast(limit).startAt(1)
-         .on('child_added', function (data) {
-             database.ref(articleRef + 'article/' + data.key)
-                 .on('value', function (articleData) {
-                     count++;
-                     articles.unshift({
-                         id: data.key,
-                         published: data.val().published,
-                         data: articleData.val()
-                     });
-                     articles.sort(function (a, b) {
-                         return a.published < b.published
-                     });
-                     console.log(articles.length);
-                     producer();
-                 }, function (err) {
-                     showError(err);
+     var search_content = document.getElementById('search_content').value;
+     if (search_content == '') {
+         database.ref(articleRef + 'article_list')
+             .on('value', function (snapshot) {
+                 trueData = 0;
+                 snapshot.forEach(function (childSnapshot) {
+                     if (trueData < limit)
+                         trueData++;
                  });
-         }, function (err) {
-             alert(err);
-         });
+             });
+
+         database.ref(articleRef + 'article_list')
+             .orderByChild('published').limitToLast(limit).startAt(1)
+             .on('child_added', function (data) {
+                 database.ref(articleRef + 'article/' + data.key)
+                     .on('value', function (articleData) {
+                         count++;
+                         articles.unshift({
+                             id: data.key,
+                             published: data.val().published,
+                             data: articleData.val()
+                         });
+                         articles.sort(function (a, b) {
+                             return a.published < b.published
+                         });
+                         console.log(articles.length);
+                         producer();
+                     }, function (err) {
+                         showError(err);
+                     });
+             }, function (err) {
+                 alert(err);
+             });
+     } else {
+         console.log("Enter Search!");
+         if (search_content == "") {
+             alert("請輸入關鍵字");
+             return;
+         } else
+             var key = search_content;
+         console.log(key);
+         content.innerHTML = "";
+         // result.innerHTML = "";
+         database.ref('/article_group/article_list')
+             .orderByChild('published')
+             .on('child_added', function (snapshot) {
+                database.ref('/article_group/article/' + snapshot.key)
+                     .on('value', function (articleData) {
+                         if (articleData.val().title.includes(key) || articleData.val().body.includes(key)) {
+                             createArticle(snapshot.key, snapshot.val().published, articleData.val());
+                         }
+                     }, function (err) {
+                         console.log(err.message);
+                     });
+             }, function (err) {
+                 alert(err);
+             });
+     }
 
      function producer() {
          //console.log(count, trueData)
@@ -99,12 +127,15 @@
          var el = document.createElement('div');
          el.classList.add("card");
          el.classList.add("text-white");
-         el.classList.add("bg-dark");
+         el.classList.add("shadow");
+         el.classList.add("bg-grad");
          el.classList.add("col-md-4");
          el.classList.add("col-sm-12");
+         el.classList.add("d-flex");
+         el.classList.add("flex-column");
          var body = data.body;
          var bodySize = 100;
-         if(body.length > bodySize){
+         if (body.length > bodySize) {
              body = body.substr(0, bodySize);
              body += '<span id="dots">...</span>';
          }
@@ -114,12 +145,12 @@
              '<div class="card-body d-flex flex-column" id="body">' +
              '<img class="card-img-top" alt="Card image cap">' +
              '<ul class="list-group list-group-flush">' +
-             '  <li class="list-group-item card-text bg-dark" id="author">' + '作者：' + '</li>' +
+             '  <li class="shadow" id="author">' + '作者：' + '</li>' +
              '</ul>' +
-             '  <p class="card-text align-self-stretch h-100">' + body + '</p>' +
-             '<div class="card-footer text-muted align-self-end">' + 
-             '  <p>' + '最後更新時間：' + new Date(published).toLocaleString() + '</p>' +
-             '  <div id="btn_group" class="btn-group"><a href="' + '../game/index.html' + '#article_id=' + id + '" class="btn btn-primary">玩遊戲</a></div>' +
+             '  <p class="card-text">' + body.replace(/(?:\r\n|\r|\n)/g, '<br>') + '</p>' +
+             '<div class="card-footer text-muted align-self-end" style="margin-top: auto;">' +
+             '  <p class="text-white">' + '最後更新時間：' + new Date(published).toLocaleString() + '</p>' +
+             '  <div id="btn_group" class="btn-group"><a target="_blank" href="' + '../game/index.html' + '#article_id=' + id + '" class="btn btn-primary">玩遊戲</a></div>' +
              '</div>' +
              '</div>';
          appendHtml(el, strHTML);
@@ -144,7 +175,7 @@
          var ref = storage.ref(imgRef + data.img_id);
 
          ref.getDownloadURL().then(function (url) {
-            el.querySelector('div').querySelector('img').src = url;
+             el.querySelector('div').querySelector('img').src = url;
          });
          document.getElementById('content').appendChild(el);
      }

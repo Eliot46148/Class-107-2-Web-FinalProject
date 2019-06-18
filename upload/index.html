@@ -17,30 +17,48 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+    <style type="text/css">
+        .bg-blur::before {
+            content: attr(form);
+            background-image: url('https://cdn-images-1.medium.com/max/1000/1*ATVm5uCixG7ntr40XlQbrg.jpeg');
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+            position: absolute;
+            width: 100%;
+            height: 1000px;
+            z-index: -1;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="content-creator">
-            <br><br><br><br>
-        <form onsubmit="return false">
-            <label>遊戲標題</label><br />
-            <input type="text" placeholder="標題" name="title" id="title" style="width: 100%" required><br />
-            <label>選擇遊戲封面</label><br />
-            <input type="file" accept="image/gif, image/jpeg, image/png" id="imgButton" value="upload"
-                style="width: 100%" onchange="readURL(this);" required>
-            <img id="preview" src="" alt=""><br />
-            <label>選擇遊戲檔案</label><br />
-            <input type="file" accept=".swf" id="fileButton" value="upload" style="width: 100%" required><br />
-            <label>遊戲內容描述</label><br />
-            <textarea name="body" id="body" rows="5" placeholder="描述" style="width: 100%"></textarea><br />
-            <button id="submit-button" type="submit" class="btn btn-primary">
-                發表遊戲
-            </button>
-            <div id="uploader" class="progress" style="display: none;">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-        </form>
+    <br><br><br><br><br>
+    <div id="content-creator d-flex flex-column align-content-center">
+        <div class="bg-blur">
+            <form class="d-flex flex-column">
+                <label>遊戲標題</label><br />
+                <input class="form-control" type="text" placeholder="標題" name="title" id="title" style="width: 100%"
+                    required><br />
+                <label>選擇遊戲封面</label><br />
+                <input type="file" accept="image/gif, image/jpeg, image/png" id="imgButton" value="upload"
+                    style="width: 100%" onchange="readURL(this);" required>
+                <img class="align-self-center" id="preview" src="" alt=""><br />
+                <label>選擇遊戲檔案</label><br />
+                <input type="file" accept=".swf" id="fileButton" value="upload" style="width: 100%" required><br />
+                <label>遊戲內容描述</label><br />
+                <textarea class="form-control" name="body" id="body" rows="5" placeholder="描述"
+                    style="width: 100%"></textarea><br />
+                <button id="submit-button" type="submit" class="btn btn-primary" onclick="return false;">
+                    發表遊戲
+                </button>
+                <div id="uploader" class="progress" style="display: none;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </form>
+        </div>
     </div>
     <input type="text" id="article_id" style="display: none;"></div>
     <!--iframe mozallowfullscreen="true" style="width: 380px; height: 660px" allow="autoplay; fullscreen; geolocation; microphone; camera; midi" frameborder="0" src="//v6p9d9t4.ssl.hwcdn.net/html/1177378/NotMe!/index.html" msallowfullscreen="true" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" id="game_drop" allowtransparency="true"></iframe-->

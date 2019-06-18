@@ -20,16 +20,143 @@
  // Auto-login when login
  firebase.auth().onAuthStateChanged(function (user) {
      auth = user;
+     loadArticle();
  });
 
- var article_id_ref = document.getElementById('article_id').value;
- database.ref(articleRef + 'article/' + article_id_ref)
-     .on('value', function (snapshot1) {
-         database.ref(articleRef + 'article_list/' + article_id_ref)
-             .on('value', function (snapshot2) {
-                 parseEditArticle(article_id_ref, snapshot2.val().published, snapshot1.val());
+ ////////// Load Article Function //////////
+ function loadArticle() {
+     var limit = 100;
+     var count = 0;
+     var trueData = 0;
+     var flag = true;
+     var articles = [];
+     var content = document.getElementById('content');
+     content.innerHTML = '';
+
+     database.ref('/user_group/public_user_data/' + auth.uid + '/uploaded')
+         .on('value', function (snapshot) {
+             trueData = 0;
+             snapshot.forEach(function (childSnapshot) {
+                 if (trueData < limit)
+                     trueData++;
              });
-     });
+         });
+
+     database.ref('/user_group/public_user_data/' + auth.uid + '/uploaded')
+         .orderByChild('published').limitToLast(limit).startAt(1)
+         .on('child_added', function (data) {
+             database.ref(articleRef + 'article/' + data.key)
+                 .on('value', function (articleData) {
+                     count++;
+                     articles.unshift({
+                         id: data.key,
+                         published: data.val().published,
+                         data: articleData.val()
+                     });
+                     articles.sort(function (a, b) {
+                         return a.published < b.published
+                     });
+                     console.log(articles.length);
+                     producer();
+                 }, function (err) {
+                     showError(err);
+                 });
+         }, function (err) {
+             alert(err);
+         });
+
+     function producer() {
+         //console.log(count, trueData)
+         if (count === trueData && flag) {
+             for (var i in articles) {
+                 createArticle(articles[i].id, articles[i].published, articles[i].data)
+             }
+             flag = false
+         }
+         console.log(articles.length);
+     }
+
+     function showError(err) {
+         var el = document.createElement('div');
+         el.innerHTML = err.message
+         content.appendChild(el)
+     }
+
+     function createArticle(id, published, data) {
+         //console.log(id)
+         var el = document.createElement('div');
+         el.classList.add("card");
+         el.classList.add("text-white");
+         el.classList.add("bg-grad");
+         el.classList.add("shadow");
+         var body = data.body;
+         var bodySize = 100;
+         if (body.length > bodySize) {
+             body = body.substr(0, bodySize);
+             body += '<span id="dots">...</span>';
+         }
+
+         var strHTML =
+             '<b class="card-header" style="font-size: 20px;">' + data.title + '</b>' +
+             '<div class="card-body d-flex" id="body">' +
+             '<img class="w-100 h-50" alt="Card image cap">' +
+             '<div>' +
+             '<ul class="list-group list-group-flush">' +
+             '  <li class="card-text shadow" id="author">' + '作者：' + '</li>' +
+             '</ul>' +
+             '  <p class="card-text align-self-stretch">' + body.replace(/(?:\r\n|\r|\n)/g, '<br>') + '</p>' +
+             '<div class="text-muted align-self-end shadow">' +
+             '  <p class="text-white">' + '最後更新時間：' + new Date(published).toLocaleString() + '</p>' +
+             '  <div id="btn_group" class="btn-group"><a target="_blank" href="' + '../game/index.html' + '#article_id=' + id + '" class="btn btn-primary">玩遊戲</a></div>' +
+             '</div>' +
+             '</div>' +
+             '</div>';
+         appendHtml(el, strHTML);
+
+         const adminUID = ["ky8AegNAuNcRy6FNtKThx8xacI52", "vxD4ir50VWc3zA2UUYaghAkv1oT2"];
+         if (auth != null && (adminUID.indexOf(auth.uid) != -1 || auth.uid == data.uid)) {
+             var strTemp = '  <button type="button" onclick="Edit(' + "'" + id + "'" + '); article_id_ref=' + "'" + id + ";'" + '" class="btn btn-secondary">編輯文章</button>';
+             appendHtml(el.querySelector('#btn_group'), strTemp);
+             strTemp = '<button type="button" onclick="DeleteArticle(' + "'" + id + "'" + ')" class="btn btn-danger">刪除</button>';
+             appendHtml(el.querySelector('#btn_group'), strTemp);
+         }
+
+         var ref = firebase.database().ref(userRef + "public_user_data/" + data.uid)
+             .on('value',
+                 function (data) {
+                     el.querySelector('#body').querySelector('ul').querySelector('#author').innerHTML = '作者：' + data.val().name;
+                 },
+                 function (err) {
+                     showError(err);
+                 });
+
+         var ref = storage.ref(imgRef + data.img_id);
+
+         ref.getDownloadURL().then(function (url) {
+             el.querySelector('div').querySelector('img').src = url;
+         });
+         document.getElementById('content').appendChild(el);
+     }
+     ////// Append HTML by plain text //////
+     function appendHtml(el, str) {
+         var div = document.createElement('div');
+         div.innerHTML = str;
+         while (div.children.length > 0) {
+             el.appendChild(div.children[0]);
+         }
+     }
+ }
+
+ var article_id_ref;
+function Edit(article_id_ref){
+    database.ref(articleRef + 'article/' + article_id_ref)
+        .on('value', function (snapshot1) {
+            database.ref(articleRef + 'article_list/' + article_id_ref)
+                .on('value', function (snapshot2) {
+                    parseEditArticle(article_id_ref, snapshot2.val().published, snapshot1.val());
+                });
+        });
+ }
 
  window.onload = function () {
      setInterval("parent.AdjustIframeHeight('blog')", 10);
@@ -82,17 +209,13 @@
          var file_name = file.name;
          var img_name = img.name;
          var date_submit;
-         var originalAuth;
-         database.ref(articleRef + 'article/' + article_id_ref)
-             .on('value', function (snapshot) {
-                originalAuth = snapshot.val().uid;
-             });
+         var uid = auth.uid;
          date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_").replace(' ', '');
          var articleData = {
              title: title,
              body: body,
              date_edited: firebase.database.ServerValue.TIMESTAMP,
-             uid: originalAuth,
+             uid: uid,
              slug_name: title.replace(/\s/g, '-'),
              game_id: date_submit + '_' + file_name,
              img_id: date_submit + '_' + img_name
@@ -136,15 +259,11 @@
      } else {
          DeleteOriginalStorage();
          var title = titleText.value;
-         var originalAuth;
-         database.ref(articleRef + 'article/' + article_id_ref)
-             .on('value', function (snapshot) {
-                originalAuth = snapshot.val().uid;
-             });
          if (title == "" || auth == null)
              return 0;
          var body = bodyText.value;
          var date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_").replace(' ', '');
+         var uid = auth.uid;
          var file_name = file_name_get;
          if (file != null) {
              file_name = date_submit + '_' + file.name;
@@ -161,7 +280,7 @@
              slug_name: title.replace(/\s/g, '-'),
              img_id: img_name,
              game_id: file_name,
-             uid: originalAuth
+             uid: uid
          };
          if (file != null) {
              var storageRef = storage.ref(gameRef + file_name);
@@ -229,7 +348,7 @@
          reader.onload = function (e) {
              $('#preview')
                  .attr('src', e.target.result)
-                 .width('100%');
+                 .width('50%');
          };
 
          reader.readAsDataURL(input.files[0]);

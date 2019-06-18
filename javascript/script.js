@@ -43,6 +43,8 @@ const btnSignout = document.getElementById('signout');
 const status = document.getElementById("status");
 const userInfo = document.getElementById("UserInfo");
 const navParent = document.getElementById("navParent");
+
+const btnUserWindow = document.getElementById('userWindow');
 // const loginWindow = document.getElementById("loginWindow");
 
 firebase.auth().onAuthStateChanged(function (user) {
@@ -53,6 +55,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         status.setAttribute("onclick","collapseAndSignOut()");
         status.removeAttribute("data-target");
         btnSignupWindow.style.display = "none";
+        btnUserWindow.style = "";
         firebase.database().ref('/user_group/public_user_data/'+loginUser.uid).once('value').then(function(data){
             userInfo.innerHTML = "Hello, " + data.val().name;
         });
@@ -63,6 +66,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         status.setAttribute("onclick","collapse()");
         status.setAttribute("data-target","#loginWindow");
         btnSignupWindow.style.display = "inline";
+        btnUserWindow.style.display = "none";
         userInfo.innerText = "";
     }
 });
@@ -135,7 +139,13 @@ function ChangeTitle(title){
     document.title = "北科遊戲雲 - " + title;
 }
 
-function Goto(iframe, url){
-    iframe.src = url;
+function Goto(iframe, url, name){
+    if(iframe.src.includes(url.substr(0, 6))){
+        $(iframe).attr("src", url);
+        iframe.contentWindow.location.reload();
+    }
+    else
+        iframe.src = url;
     location.href = "#top";
+    document.title = name;
 }
