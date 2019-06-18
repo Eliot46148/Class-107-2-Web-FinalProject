@@ -39,23 +39,23 @@
 
     <div class="about container" id="pop2">
         <img class="blur" src="../resource/code.png" alt="" width="100%">
-        <p class="text-white centered" style="font-size: 3vw">創作遊戲並上傳分享 — 僅在彈指之間</p>
+        <p class="text-white centered" style="font-size: 3vw">創作遊戲並上傳分享<br/>僅在彈指之間</p>
     </div>
 
     <div class="about" id="pop3">
-        <p class="">製作團隊</p>
+        <p>製作團隊</p>
         <div class="row">
-            <div class="about d-flex flex-column col-md-4">
+            <div class="about d-flex flex-column col-md-4 about" id="pop4">
                 <img class="rounded-circle font-weight-bold align-self-stretch m-auto w-100" src="../resource/Bread.jpg"
                     alt="">
                 <p>邱奕凱</p>
             </div>
-            <div class="about d-flex flex-column col-md-4">
+            <div class="about d-flex flex-column col-md-4 about" id="pop5">
                 <img class="rounded-circle font-weight-bold align-self-stretch m-auto w-100"
                     src="../resource/Joseph.jpg" alt="">
                 <p>歐陽緒</p>
             </div>
-            <div class="about d-flex flex-column col-md-4">
+            <div class="about d-flex flex-column col-md-4 about" id="pop6">
                 <img class="rounded-circle font-weight-bold align-self-stretch m-auto w-100" src="../resource/Eliot.jpg"
                     alt="">
                 <p>鄭庭恩</p>
@@ -68,7 +68,7 @@
 
         <div class="centered">
             <a onclick="parent.GotoSpec(parent.document.getElementById('blog'), 'blog/index.html#search_content=', '北科遊戲雲 - 熱門遊戲');">
-                <p class="text-white font-weight-bold" style="font-size: 5vw; text-shadow: 2px 2px #000000;">現在開始吧</p>
+                <p class="text-white font-weight-bold" style="font-size: 4vw; text-shadow: 2px 2px #000000;">現在就開始吧</p>
             </a>
         </div>
     </div>
@@ -82,6 +82,9 @@
                 emerge($('#pop1'), 1);
                 emerge($('#pop2'), 0);
                 emerge($('#pop3'), 1);
+                emerge($('#pop4'), 1);
+                emerge($('#pop5'), 1);
+                emerge($('#pop6'), 1);
             });
         })();
 
@@ -90,8 +93,7 @@
                 scrollBot = scrollTop + screen.height;
             var aboutElOffset1 = value.offset().top - value.height(),
                 aboutElOffset2 = value.offset().top + value.height();
-            var offset = 0;
-            if (scrollTop > aboutElOffset1 - offset && scrollTop < aboutElOffset2 + offset) {
+            if (scrollTop > aboutElOffset1 - 200 && scrollTop < aboutElOffset2 - 200) {
                 if (dir == 0)
                     $(value).removeClass('hidden-left');
                 else
