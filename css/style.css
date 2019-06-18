@@ -83,10 +83,3 @@ a.hvr-sweep-to-right:hover:before, a.hvr-sweep-to-right:focus:before, a.hvr-swee
     padding-right: 5%;
   }
 }
-
-#loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
