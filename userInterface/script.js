@@ -209,13 +209,17 @@ function Edit(article_id_ref){
          var file_name = file.name;
          var img_name = img.name;
          var date_submit;
-         var uid = auth.uid;
+         var originalAuth;
+         database.ref(articleRef + 'article/' + article_id_ref)
+             .on('value', function (snapshot) {
+                originalAuth = snapshot.val().uid;
+             });
          date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_").replace(' ', '');
          var articleData = {
              title: title,
              body: body,
              date_edited: firebase.database.ServerValue.TIMESTAMP,
-             uid: uid,
+             uid: originalAuth,
              slug_name: title.replace(/\s/g, '-'),
              game_id: date_submit + '_' + file_name,
              img_id: date_submit + '_' + img_name
@@ -242,7 +246,7 @@ function Edit(article_id_ref){
                  updates[articleRef + 'article_list/' + key] = {
                      published: firebase.database.ServerValue.TIMESTAMP
                  };
-                 updates[userRef + 'public_user_data/' + auth.uid + '/uploaded/' + key] = {
+                 updates[userRef + 'public_user_data/' + originalAuth + '/uploaded/' + key] = {
                      published: firebase.database.ServerValue.TIMESTAMP
                  };
                  count = 0;
@@ -263,7 +267,11 @@ function Edit(article_id_ref){
              return 0;
          var body = bodyText.value;
          var date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_").replace(' ', '');
-         var uid = auth.uid;
+         var originalAuth;
+         database.ref(articleRef + 'article/' + article_id_ref)
+             .on('value', function (snapshot) {
+                originalAuth = snapshot.val().uid;
+             });
          var file_name = file_name_get;
          if (file != null) {
              file_name = date_submit + '_' + file.name;
@@ -280,7 +288,7 @@ function Edit(article_id_ref){
              slug_name: title.replace(/\s/g, '-'),
              img_id: img_name,
              game_id: file_name,
-             uid: uid
+             uid: originalAuth
          };
          if (file != null) {
              var storageRef = storage.ref(gameRef + file_name);
@@ -302,7 +310,7 @@ function Edit(article_id_ref){
                      updates[articleRef + 'article_list/' + article_id_ref] = {
                          published: firebase.database.ServerValue.TIMESTAMP
                      };
-                     updates[userRef + 'public_user_data/' + auth.uid + '/uploaded/' + article_id_ref] = {
+                     updates[userRef + 'public_user_data/' + originalAuth + '/uploaded/' + article_id_ref] = {
                          published: firebase.database.ServerValue.TIMESTAMP
                      };
                      count = 0;
@@ -323,7 +331,7 @@ function Edit(article_id_ref){
              updates[articleRef + 'article_list/' + article_id_ref] = {
                  published: firebase.database.ServerValue.TIMESTAMP
              };
-             updates[userRef + 'public_user_data/' + auth.uid + '/uploaded/' + article_id_ref] = {
+             updates[userRef + 'public_user_data/' + originalAuth + '/uploaded/' + article_id_ref] = {
                  published: firebase.database.ServerValue.TIMESTAMP
              };
              count = 0;
@@ -369,3 +377,47 @@ function Edit(article_id_ref){
      });
      console.log(article_id_ref + 'deleted');
  }
+ 
+ // Admin manage functions //
+ function DeleteArticle(id) {
+    console.log("Deleting " + id);
+    database.ref(articleRef + 'article/' + id)
+        .on('value', function (snapshot) {
+            const uploader = snapshot.val().uid;
+            const img_id = snapshot.val().img_id;
+            const game_id = snapshot.val().game_id;
+            Deletion(id, uploader, img_id, game_id);
+            console.log(id + 'deleted');
+            alert('刪除成功 請重新整理');
+        });
+}
+
+function Deletion(id, uploader, img_id, game_id) {
+    var dataAboutToDelete = [];
+    // Database Deletion //
+    dataAboutToDelete.push(database.ref(articleRef + 'article_list/' + id));
+    dataAboutToDelete.push(database.ref(userRef + 'public_user_data/' + uploader + '/uploaded/' + id));
+    // Storage Deletion //
+    var storAboutToDelete = [];
+    storAboutToDelete.push(storage.ref(imgRef + img_id));
+    storAboutToDelete.push(storage.ref(gameRef + game_id));
+    //////////////////////
+    dataAboutToDelete.forEach(function (item, index, array) {
+        removeData(item);
+    });
+    storAboutToDelete.forEach(function (item, index, array) {
+        removeStor(item);
+    });
+    database.ref(articleRef + 'article/' + id).remove();
+}
+
+function removeData(ref) {
+    ref.once("value")
+        .then(function (snapshot) {
+            ref.remove();
+        });
+}
+
+function removeStor(ref) {
+    ref.delete();
+}

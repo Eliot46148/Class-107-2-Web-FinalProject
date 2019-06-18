@@ -1,9 +1,9 @@
 .centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
   .container {
     position: relative;
     text-align: center;
@@ -14,4 +14,81 @@
   }
   p{
       font-size: 3vw;
+  }
+  
+  .centered a p{
+    display: block;
+    font-size: 24px;
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #ffffff;
+    border-top: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    padding: 10px;
+    letter-spacing: 2px;
+    transition: all .25s;
+  }
+  .centered a{
+    text-decoration: none;
+  }
+  
+  .centered a p:hover{
+    letter-spacing: 15px;
+  }
+  
+  
+  @import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+
+  p,
+  h1 {
+      font-family: 'cwTeXYen', sans-serif;
+      font-weight: 300;
+      text-align: center;
+  }
+
+  body {
+      font-family: Raleway, Arial;
+  }
+
+  .content {
+      height: 600px;
+      background-color: #e0e0e0;
+  }
+
+  .about {
+      margin: 0 auto;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      transform-style: preserve-3d;
+      transform: perspective(800px);
+      transition: all 0.8s ease;
+
+  }
+
+  .hidden-left {
+      opacity: 0;
+      transform: translate3d(0, 0, 400px) rotateY(-40deg);
+  }
+
+  .hidden-right {
+      opacity: 0;
+      transform: translate3d(0, 0, 400px) rotateY(40deg);
+  }
+
+  @media screen and (min-width: 400px) and (max-width: 700px) {
+      #pop1 h1 {
+          font-size: 15vw;
+      }
+      #pop1 p {
+          font-size: 10vw;
+      }
+      #pop2 p {
+          font-size: 10vw;
+      }
+      #pop3 div div p {
+          font-size: 10vw;
+      }
+      #pop3 p {
+          font-size: 15vw;
+      }
   }

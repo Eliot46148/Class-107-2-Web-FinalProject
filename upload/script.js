@@ -119,7 +119,7 @@
                  updates[articleRef + 'article_list/' + key] = {
                      published: firebase.database.ServerValue.TIMESTAMP
                  };
-                 updates[userRef + 'public_user_data/' + auth.uid + '/uploaded/' + key] = {
+                 updates[userRef + 'public_user_data/' + originalAuth + '/uploaded/' + key] = {
                      published: firebase.database.ServerValue.TIMESTAMP
                  };
                  count = 0;
@@ -183,7 +183,7 @@
                      updates[articleRef + 'article_list/' + article_id_ref] = {
                          published: firebase.database.ServerValue.TIMESTAMP
                      };
-                     updates[userRef + 'public_user_data/' + auth.uid + '/uploaded/' + article_id_ref] = {
+                     updates[userRef + 'public_user_data/' + originalAuth + '/uploaded/' + article_id_ref] = {
                          published: firebase.database.ServerValue.TIMESTAMP
                      };
                      count = 0;
@@ -204,7 +204,7 @@
              updates[articleRef + 'article_list/' + article_id_ref] = {
                  published: firebase.database.ServerValue.TIMESTAMP
              };
-             updates[userRef + 'public_user_data/' + auth.uid + '/uploaded/' + article_id_ref] = {
+             updates[userRef + 'public_user_data/' + originalAuth + '/uploaded/' + article_id_ref] = {
                  published: firebase.database.ServerValue.TIMESTAMP
              };
              count = 0;

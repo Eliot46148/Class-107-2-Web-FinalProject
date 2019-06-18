@@ -22,18 +22,27 @@
 </head>
 
 <body class="d-flex flex-column align-items-center">
-  <div class="pos-f-t" name="top">
+  <div class="pos-f-t" name="top" id="top-nav">
     <div class="w-100" id="nav-bg"></div>
     <div class="bg-text navbar-dark fixed-top pdx-15" id="nav-body">
       <nav class="navbar">
         <button class="btn p-0" type="button" onclick="collapse(); location.href=''">
           <img src="./resource/logo.png" alt="" width="50px">
         </button>
-        <button class="btn text-white" onclick="collapse(); Goto(document.getElementById('blog'), 'blog/index.html#search_content=', '北科遊戲雲 - 熱門遊戲')">
+        <button class="btn text-white border border-white"
+          onclick="collapse(); Goto(document.getElementById('blog'), 'blog/index.html#search_content=', '北科遊戲雲 - 熱門遊戲')">
           <p class="m-0">熱門遊戲</p>
         </button>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+        <div class="input-group input-group-sm w-50">
+            <input type="text" id="target" class="form-control" placeholder="請輸入關鍵字">
+            <button class="btn text-white border border-white" style="margin-left: 5%;"
+              onclick="Goto(document.getElementById('blog'), 'blog/index.html#search_content=' + document.getElementById('target').value, '北科遊戲雲 - 熱門遊戲'); collapse(); document.getElementById('target').value = '';">
+              <p class="m-0">搜尋</p>
+            </button>
+          </div>
+
+        <button class="navbar-toggler border border-white" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
           aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -42,26 +51,20 @@
         <hr class="p-0 m-0 bg-white">
         <div class="p-4" id="navParent">
           <!-- Button trigger modal -->
-        <div class="input-group input-group-sm">
-            <input type="text" id="target" class="form-control" placeholder="請輸入關鍵字">
-            <button class="btn text-white" onclick="Goto(document.getElementById('blog'), 'blog/index.html#search_content=' + document.getElementById('target').value, '北科遊戲雲 - 熱門遊戲'); collapse(); document.getElementById('target').value = '';">
-              <p class="m-0">搜尋</p>
-            </button>
-          </div>
           <div class="w-100 d-flex justify-content-between align-items-center">
-              <div id="UserInfo" style="color: white; font-size: 20px"></div>
-              <div class="btn-group">
-                <a id="status" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#loginWindow"
-                  onclick="collapse()">登入</a>
-                <a id="signupWindow" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#signUpWindow"
-                  onclick="collapse()">
-                  註冊
-                </a>
-                <a id="userWindow" class="hvr-sweep-to-right btn" style="display: none;"
-                  onclick="Goto(document.getElementById('blog'), 'userInterface/index.html', '北科遊戲雲 - 會員介面'); collapse();">
-                  會員介面
-                </a>
-              </div>
+            <div id="UserInfo" style="color: white; font-size: 20px"></div>
+            <div class="btn-group">
+              <a id="status" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#loginWindow"
+                onclick="collapse()">登入</a>
+              <a id="signupWindow" class="hvr-sweep-to-right btn" data-toggle="modal" data-target="#signUpWindow"
+                onclick="collapse()">
+                註冊
+              </a>
+              <a id="userWindow" class="hvr-sweep-to-right btn" style="display: none;"
+                onclick="Goto(document.getElementById('blog'), 'userInterface/index.html', '北科遊戲雲 - 會員介面'); collapse();">
+                會員介面
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -126,8 +129,8 @@
     </div>
   </div>
 
-  <iframe src="mainpage/index.html" id="blog" frameborder="0" width="80%"
-    onload="AdjustIframeHeightOnLoad('blog')" scrolling="no" style="display: block;">
+  <iframe src="mainpage/index.html" id="blog" frameborder="0" width="80%" onload="AdjustIframeHeightOnLoad('blog')"
+    scrolling="no" style="display: block;">
   </iframe>
 
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>

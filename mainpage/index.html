@@ -1,132 +1,114 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="./resource/logo.png">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="./resource/logo.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
         </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
         </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
-        <title>Scroll Activated Animation</title>
-        <link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="style.css">
-        <style type="text/css">
-            @import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
-            p, h1{
-                font-family: 'cwTeXYen', sans-serif;
-                font-weight: 300;
-                text-align: center;
-            }
-            body {
-                font-family: Raleway, Arial;
-            }
-            
-            .content {
-                height: 600px;
-                background-color: #e0e0e0;
-            }
-            
-            .about {
-                margin: 0 auto;
-                padding-top: 50px;
-                padding-bottom: 50px;
-                transform-style: preserve-3d;
-                transform: perspective(800px);
-                transition: all 0.8s ease;
-                
-            }
-            .hidden-left {
-                opacity: 0;
-                transform: translate3d(0, 0, 400px) rotateY(-40deg);
-            }
-            .hidden-right {
-                opacity: 0;
-                transform: translate3d(0, 0, 400px) rotateY(40deg);
-            }
-        </style>
-        
-        
-    </head>
-    <body class="d-flex flex-column align-items-center">
-        
-        <div class="container">
-            <img class="blur" src="https://g.foolcdn.com/image/?url=https%3A%2F%2Fg.foolcdn.com%2Feditorial%2Fimages%2F499797%2Fgroup-of-men-and-women-playing-video-games.jpg&w=700&op=resize" alt="" width="100%">
-            <p class="text-white centered" style="font-size: 5vw">現在就改變世界...</p>
-        </div>
-        
-        <div class="about d-flex flex-column" id="pop1">
-            <h1>北科遊戲雲</h1>
-            <img src="../resource/logo.png" class="align-self-center
+    <title>Scroll Activated Animation</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="d-flex flex-column align-items-center">
+
+    <div class="container">
+        <img class="blur"
+            src="https://g.foolcdn.com/image/?url=https%3A%2F%2Fg.foolcdn.com%2Feditorial%2Fimages%2F499797%2Fgroup-of-men-and-women-playing-video-games.jpg&w=700&op=resize"
+            alt="" width="100%">
+        <p class="text-white centered" style="font-size: 5vw">現在就改變世界...</p>
+    </div>
+
+    <div class="about d-flex flex-column" id="pop1">
+        <h1>北科遊戲雲</h1>
+        <img src="../resource/logo.png" class="align-self-center
             " alt="" width="200px">
-            <p>我們致力於分享遊戲的歡樂<br>藉由遊戲更貼近彼此</p>
-        </div>
+        <p>我們致力於分享遊戲的歡樂<br>藉由遊戲更貼近彼此</p>
+    </div>
 
-        <div class="about container" id="pop2">
-            <img class="blur" src="https://cdn-images-1.medium.com/max/2400/1*iwPLQjyFYRTVeQ2cb4S9rA.png" alt="" width="100%">
-            <p class="text-white centered" style="font-size: 3vw">創作遊戲並上傳分享 — 僅在彈指之間</p>
-        </div>
+    <div class="about container" id="pop2">
+        <img class="blur" src="https://cdn-images-1.medium.com/max/2400/1*iwPLQjyFYRTVeQ2cb4S9rA.png" alt=""
+            width="100%">
+        <p class="text-white centered" style="font-size: 3vw">創作遊戲並上傳分享 — 僅在彈指之間</p>
+    </div>
 
-        <div class="about" id="pop3">
-            <p class="">製作團隊</p>
-            <div class="row">
-                <div class="about d-flex flex-column col-md-4">
-                    <img class=" rounded-circle" src="../resource/Bread.jpg" alt="" height="200px">
-                    <p>邱奕凱</p>
-                </div>
-                <div class="about d-flex flex-column col-md-4">
-                    <img class=" rounded-circle" src="../resource/Joseph.jpg" alt="" height="200px">
-                    <p>歐陽緒</p>
-                </div>
-                <div class="about d-flex flex-column col-md-4">
-                    <img class=" rounded-circle" src="../resource/Eliot.jpg" alt="" height="200px">
-                    <p>鄭庭恩</p>
-                </div>
+    <div class="about" id="pop3">
+        <p class="">製作團隊</p>
+        <div class="row">
+            <div class="about d-flex flex-column col-md-4">
+                <img class="rounded-circle font-weight-bold align-self-stretch m-auto w-100" src="../resource/Bread.jpg"
+                    alt="">
+                <p>邱奕凱</p>
+            </div>
+            <div class="about d-flex flex-column col-md-4">
+                <img class="rounded-circle font-weight-bold align-self-stretch m-auto w-100"
+                    src="../resource/Joseph.jpg" alt="">
+                <p>歐陽緒</p>
+            </div>
+            <div class="about d-flex flex-column col-md-4">
+                <img class="rounded-circle font-weight-bold align-self-stretch m-auto w-100" src="../resource/Eliot.jpg"
+                    alt="">
+                <p>鄭庭恩</p>
             </div>
         </div>
-           
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script type="text/javascript">
-            
-            (function() {
-                var documentEl = $(parent);
-                documentEl.on('scroll', function() {
-                    parent.AdjustIframeHeightOnLoad('blog');
-                    emerge($('#pop1'), 1);
-                    emerge($('#pop2'), 0);
-                    emerge($('#pop3'), 1);
-                });
-            })();
-            
-            function emerge(value, dir){
-                var scrollTop= $(parent).scrollTop(),
-                    scrollBot = scrollTop + screen.height;
-                var aboutElOffset1 = value.offset().top - value.height(),
-                    aboutElOffset2 = value.offset().top + value.height();
-                var offset = 0;
-                if ( scrollTop > aboutElOffset1 - offset && scrollTop < aboutElOffset2 + offset ){
-                    if(dir == 0)
-                        $(value).removeClass('hidden-left');
-                    else
-                        $(value).removeClass('hidden-right');
-                }
-                else{
-                    if(dir == 0)
-                        $(value).addClass('hidden-left');
-                    else
-                        $(value).addClass('hidden-right');
-                }
-            }
-            
-        </script>
+    </div>
+
+    <div class="container">
+        <img class="blur" src="../resource/innovation.jpg" alt="" width="100%">
         
-    </body>
+        <div class="centered">
+            <a href="javascript:parent.$('#top-nav').addClass('emerge')"><p class="text-white font-weight-bold" style="font-size: 5vw; text-shadow: 2px 2px #000000;">現在開始吧</p></a>
+          </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        (function () {
+            var documentEl = $(parent);
+            documentEl.on('scroll', function () {
+                parent.AdjustIframeHeightOnLoad('blog');
+                emerge($('#pop1'), 1);
+                emerge($('#pop2'), 0);
+                emerge($('#pop3'), 1);
+            });
+        })();
+
+        function emerge(value, dir) {
+            var scrollTop = $(parent).scrollTop(),
+                scrollBot = scrollTop + screen.height;
+            var aboutElOffset1 = value.offset().top - value.height(),
+                aboutElOffset2 = value.offset().top + value.height();
+            var offset = 0;
+            if (scrollTop > aboutElOffset1 - offset && scrollTop < aboutElOffset2 + offset) {
+                if (dir == 0)
+                    $(value).removeClass('hidden-left');
+                else
+                    $(value).removeClass('hidden-right');
+            }
+            else {
+                if (dir == 0)
+                    $(value).addClass('hidden-left');
+                else
+                    $(value).addClass('hidden-right');
+            }
+        }
+
+    </script>
+
+</body>
+
 </html>
