@@ -82,11 +82,7 @@
          var file_name = file.name;
          var img_name = img.name;
          var date_submit;
-         var originalAuth;
-         database.ref(articleRef + 'article/' + article_id_ref)
-             .on('value', function (snapshot) {
-                originalAuth = snapshot.val().uid;
-             });
+         var originalAuth = auth-uid;
          date_submit = new Date().toLocaleString('en-GB').replace(/[^\w\s]/gi, "_").replace(' ', '');
          var articleData = {
              title: title,
