@@ -30,6 +30,10 @@
             height: 1000px;
             z-index: -1;
         }
+
+        .bg-grad {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 
@@ -37,25 +41,28 @@
     <br><br><br><br><br>
     <div id="content-creator d-flex flex-column align-content-center">
         <div class="bg-blur">
-            <form class="d-flex flex-column">
-                <label>遊戲標題</label><br />
-                <input class="form-control" type="text" placeholder="標題" name="title" id="title" style="width: 100%"
-                    required><br />
-                <label>選擇遊戲封面</label><br />
-                <input type="file" accept="image/gif, image/jpeg, image/png" id="imgButton" value="upload"
-                    style="width: 100%" onchange="readURL(this);" required>
-                <img class="align-self-center" id="preview" src="" alt=""><br />
-                <label>選擇遊戲檔案</label><br />
-                <input type="file" accept=".swf" id="fileButton" value="upload" style="width: 100%" required><br />
-                <label>遊戲內容描述</label><br />
-                <textarea class="form-control" name="body" id="body" rows="5" placeholder="描述"
-                    style="width: 100%"></textarea><br />
-                <button id="submit-button" type="submit" class="btn btn-primary" onclick="return false;">
-                    發表遊戲
-                </button>
-                <div id="uploader" class="progress" style="display: none;">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            <form class="card bg-grad">
+                <b class="card-header" style="font-size: 20px;">上傳或編輯文章</b>
+                <div class="card-body d-flex flex-column">
+                    <label class="font-weight-bold">遊戲標題</label><br />
+                    <input class="form-control" type="text" placeholder="標題" name="title" id="title" style="width: 100%"
+                        required><br />
+                    <label class="font-weight-bold">選擇遊戲封面</label><br />
+                    <input type="file" accept="image/gif, image/jpeg, image/png" id="imgButton" value="upload"
+                        style="width: 100%" onchange="readURL(this);" required>
+                    <img class="align-self-center" id="preview" src="" alt=""><br />
+                    <label class="font-weight-bold">選擇遊戲檔案</label><br />
+                    <input type="file" accept=".swf" id="fileButton" value="upload" style="width: 100%" required><br />
+                    <label class="font-weight-bold">遊戲內容描述</label><br />
+                    <textarea class="form-control" name="body" id="body" rows="5" placeholder="描述"
+                        style="width: 100%"></textarea><br />
+                    <button id="submit-button" type="submit" class="btn btn-primary" onclick="return false;">
+                        發表遊戲
+                    </button>
+                    <div id="uploader" class="progress" style="display: none;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
                 </div>
             </form>
         </div>
