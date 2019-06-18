@@ -76,7 +76,7 @@
       transform: translate3d(0, 0, 400px) rotateY(40deg);
   }
 
-  @media screen and (min-width: 350px) and (max-width: 700px) {
+  @media screen and (min-width: 400px) and (max-width: 700px) {
       #pop1 h1 {
           font-size: 15vw;
       }
@@ -86,13 +86,10 @@
       #pop2 p {
           font-size: 10vw;
       }
+      #pop3 div div p {
+          font-size: 10vw;
+      }
       #pop3 p {
           font-size: 15vw;
-      }
-      p {
-          font-size: 8vw;
-      }
-      .container p {
-        font-size: 6vw !important;
       }
   }
