@@ -122,6 +122,10 @@
                  return firebase.database().ref().update(updates)
                      .then(function () {
                          alert('發表成功');
+                         titleText.value = '';
+                         bodyText.value = '';
+                         imgButton.value = '';
+                         fileButton.value = '';
                          uploaderDiv.style = "display: none;";
                      })
                      .catch(function (error) {
