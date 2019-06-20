@@ -155,7 +155,7 @@
              '</div>';
          appendHtml(el, strHTML);
 
-         const adminUID = ["ky8AegNAuNcRy6FNtKThx8xacI52", "vxD4ir50VWc3zA2UUYaghAkv1oT2"];
+         const adminUID = ["ky8AegNAuNcRy6FNtKThx8xacI52", "X9o6Er50BiNeptMreZswZ0DwjVD2"];
          if (auth != null && (adminUID.indexOf(auth.uid) != -1 || auth.uid == data.uid)) {
              var strTemp = '  <a href="' + '../upload/index.html' + '#article_id=' + id + '" class="btn btn-secondary">編輯文章</a>';
              appendHtml(el.querySelector('#btn_group'), strTemp);
